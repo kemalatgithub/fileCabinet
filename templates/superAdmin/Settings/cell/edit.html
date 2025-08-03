@@ -1,0 +1,47 @@
+<hr><br>
+{% for i in cell %}
+<div class="col-md-12 text-sm">
+    <!-- About Me Box -->
+   <div class="row">
+      <!-- /.card-header -->
+     
+        <div class="col-md-6 text-sm">
+        <label> ስም</label>
+
+        <p class="text-muted">
+            <input type="text" class="form-control form-control-border" id="cell_name" placeholder="cell Name" value="{{ i.name }}">
+        </p>
+    </div>
+    <div class="col-md-6 text-sm">
+        <label> መሰረታዊ ፓርቲ</label>
+    
+        <p class="text-muted">
+            <select class="form-control form-control-border" id="basic_party">
+                <option value="{{ pre_cellID }}" selected>{{pre_cellP}}</option>
+                {% for i in basic_party %}
+                <option value="{{ i.id }}">{{ i.name }}</option>
+                {% endfor %}
+            </select>
+           </p>
+        </div>
+    <div class="col-md-12 text-sm">
+        <label> መግለጫ</label>
+
+        <p class="text-muted">
+            <input type="textArea" class="form-control form-control-border" id="cell_description" placeholder="cell Description" value="{{ i.description }}">
+        </p>
+    </div>
+    <div class="col-md-2 text-sm offset-10">
+        <p class="btn-group">
+            <span id="update_cell" data-id="{{ i.id }}" class="btn btn-warning btn-sm">ለዉጥ አስቅሚጥ</span>
+        </p>
+</div>
+       
+  </div>
+</div>
+{% endfor %}
+
+
+
+
+          

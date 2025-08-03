@@ -1,0 +1,45 @@
+<hr><br>
+<div class="col-md-12 text-sm">
+    <!-- About Me Box -->
+   <div class="row">
+      <!-- /.card-header -->
+      <div class="col-md-6 text-sm">
+        <label> ስም</label>
+
+        <p class="text-muted">
+            <input type="text" class="form-control form-control-border" id="federal_woreda_name" placeholder="Name">
+        </p>
+    </div>
+    <div class="col-md-6 text-sm">
+    <label> ፌዴራል ዞን</label>
+
+    <p class="text-muted">
+        <select class="form-control form-control-border" id="federal_zone">
+            <!-- <option value="" disabled selected >--ፌዴራል ዞን ምርጫ --</option> -->
+            {% for i in federal_zone %}
+            <option value="{{ i.id }}">{{ i.name }}</option>
+            {% endfor %}
+        </select>
+       </p>
+    </div>
+
+    <div class="col-md-12 text-sm">
+        <label> መግለጫ</label>
+
+        <p class="text-muted">
+            <input type="textArea" class="form-control form-control-border" id="federal_woreda_description" placeholder="Description">
+        </p>
+    </div>
+    <div class="col-md-2 text-sm mt-4 offset-11">
+        <p class="btn-group">
+            <span id="save_federal_woreda" class="btn btn-secondary btn-sm">አስቅሚጥ</span>
+        </p>
+</div>
+       
+  </div>
+</div>
+
+
+
+
+          

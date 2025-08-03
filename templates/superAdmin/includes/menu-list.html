@@ -1,0 +1,45 @@
+{% load i18n static admin_adminlte %}
+
+<ul class="nav nav-pills nav-sidebar flex-column text-sm" data-widget="treeview" role="menu" data-accordion="false">
+    <!-- Add icons to the links using the .nav-icon class
+           with font-awesome or any other icon font library -->
+           {% url 'accounts/profile' as dash %}
+           <li class="nav-item ">
+            <a href="{% url 'accounts/profile' %}" class="nav-link {% if request.path == dash %} active {% endif %}">
+              <i class="fas fa-tachometer-alt nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          {% url 'superAdmin:role_index' as role %} 
+          {% url 'superAdmin:users' as user %} 
+          {% url 'superAdmin:group_index' as group %}
+          {% url 'superAdmin:create_group' as new_group %}
+          <li class="nav-item {% if request.path == role or request.path == user or request.path == group or request.path == new_group %} menu-open {% endif %}">
+             <a href="#" class="nav-link {% if request.path == role or request.path == user or request.path == group or request.path == new_group %} active {% endif %}">
+              <i style="font-size: small;"  class="fa fa-address-book nav-icon"></i>
+               <p>
+                User Management
+                 <i class="right fas fa-angle-left"></i>
+               </p>
+             </a>
+             <ul class="nav nav-treeview">
+              <!-- Your HTML code here -->
+
+              {% url 'superAdmin:role_index' as role %} 
+                      <li class="nav-item offset-1 {% if request.path == role  %} active {% endif %}">
+                        <a href="{% url 'superAdmin:role_index' %}" class="nav-link {% if request.path == role %} active {% endif %}">
+                        <i class="far fa-circle" aria-hidden="true"></i>
+                        <p>Role</p>
+                        </a>
+                      </li>
+                      <li class="nav-item offset-1 {% if request.path == user %} active {% endif %}">
+                        <a href="{% url 'superAdmin:users' %}" class="nav-link {% if request.path == user %} active {% endif %}">
+                        <i class="far fa-circle" aria-hidden="true"></i>
+                        <p>Users</p>
+                        </a>
+                      </li>
+                     
+           </ul>
+            </li>
+
+  </ul>

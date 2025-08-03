@@ -1,0 +1,45 @@
+{% for k in user %}
+<div class=" form-control col-md-12" style="background-color:cornflowerblue;">Edit Permission for User: - <b> {{ k.first_name }} {{ k.last_name }}</b> </div>
+<div class="card-body table-responsive-sm table-responsive-sm table-responsive-md">
+    <table class="table text-sm  table-striped table-bordered editable" id="newP" width="100%">
+        <thead>
+            <tr style="line-height: 14px;">
+                <th>Check</th>
+                <th>Permission Name</th>
+                <th>Permission Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- {% with foo_num=forloop.counter %}  -->
+            {% for i in permission %}
+         
+            <tr style="line-height: 14px;">
+                <td><label style="color: green; line-height: 10px;">Grant </label><input type="checkbox" onclick="calc();" data-id="{{ i.id }}" style="width:14px;height: 14px; margin-left: 5%;"class="permits" id="{{ i.id }}"></td>
+                <td>{{ i.name }}</td>
+                <td>{{ i.codename }}</td>
+            </tr>
+
+          {% endfor %}
+          
+          <!-- {% endwith %} -->
+        </tbody>
+    </table>
+   
+</div>
+
+<input type="hidden" id="user_id" value="{{ k.id }}">
+
+{% endfor %}
+<script>
+     $('#newP').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+      "pageLength": 10
+    });
+
+</script>

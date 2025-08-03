@@ -1,0 +1,45 @@
+<hr><br>
+<div class="col-md-12 text-sm">
+    <!-- About Me Box -->
+   <div class="row">
+      <!-- /.card-header -->
+     
+        <div class="col-md-6 text-sm">
+        <label> ስም</label>
+
+        <p class="text-muted">
+            <input type="text" class="form-control form-control-border" id="cell_name" placeholder="ስም">
+        </p>
+    </div>
+    <div class="col-md-6 text-sm">
+        <label> መሰረታዊ ፓርቲ</label>
+    
+        <p class="text-muted">
+            <select class="form-control form-control-border" id="basic_party">
+                <!-- <option value="" disabled selected >--ፌዴራል ዞን ምርጫ --</option> -->
+                {% for i in basic_party %}
+                <option value="{{ i.id }}">{{ i.name }}</option>
+                {% endfor %}
+            </select>
+           </p>
+        </div>
+    <div class="col-md-12 text-sm">
+        <label> መግለጫ</label>
+
+        <p class="text-muted">
+            <input type="textArea" class="form-control form-control-border" id="cell_description" placeholder="መግለጫ">
+        </p>
+    </div>
+    <div class="col-md-1 text-sm offset-11">
+        <p class="btn-group">
+            <span id="save_cell" class="btn btn-secondary btn-sm">አስቅሚጥ</span>
+        </p>
+</div>
+       
+  </div>
+</div>
+
+
+
+
+          

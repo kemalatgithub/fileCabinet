@@ -1,0 +1,26 @@
+<hr><br>
+<div class="col-md-12 text-sm">
+    <!-- About Me Box -->
+   <div class="row">
+      <!-- /.card-header -->
+     
+        <div class="col-md-10 text-sm offset-1">
+        <label>Users </label>
+
+        <p class="text-muted">
+          <select class="form-control form-control-border" id="not_user">
+              <!-- <option value="" disabled selected >--ፌዴራል ዞን ምርጫ --</option> -->
+              {% for i in users %}
+              <option value="{{ i.id }}">{{ i.first_name }} {{ i.middle_name }} {{ i.last_name }}</option>
+              {% endfor %}
+          </select>
+         </p>
+    </div>
+    <div class="col-md-1 text-sm mt-2">
+        <p class="btn-group">
+            <span id="save_not_user" class="btn btn-secondary btn-sm mt-4">አስቀምጥ</span>
+        </p>
+</div>
+       
+  </div>
+</div>

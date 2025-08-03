@@ -1,0 +1,63 @@
+
+                        <!-- <div class="float-sm-right">
+                            <button style="font-size: xx-small;" type="button" id="user_detail" class="btn btn-info">detail</button>
+                        <button  style="font-size: xx-small;" type="button" id="new_request" class="btn btn-primary">New</button>
+                        </div> -->
+                        <div class="card-body table-responsive-sm table-responsive-sm table-responsive-md">
+                            <table class="table text-sm  table-striped table-bordered editable" id="example2" width="100%">
+                                <thead>
+                                    <tr style="line-height: 14px;">
+                                        <!-- <th>S.N</th> -->
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>User Role</th>
+                                        <th>Is_staff</th>
+                                        <th>Is_active</th>
+                                        <th>Action</th>
+                                
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- {% with foo_num=forloop.counter %}  -->
+                                    {% for i in user %}
+                                     
+                                    
+                                    <tr style="line-height: 14px;">
+                                        
+                                        <!-- <td style="width: 5px;">{{ forloop.counter }}:</td> -->
+                                        <td>{{ i.1 }}</td>
+                                        <td>{{ i.2 }}</td>
+                                        <td>{{ i.3  }}</td>
+                                        <td>{{ i.4 }}</td>
+                                        <td>
+                                        
+                                            {% if i.5 == 1 %}
+                                               <i style="color: green; font-size: xx-small;" class="fa fa-check-circle" aria-hidden="true"></i>
+                                            {% else %}
+                                               <i style="color: red; font-size: xx-small;" class="fa fa-times-circle" aria-hidden="true"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if i.6 == 1 %}
+                                               <i style="color: green; font-size: xx-small;" class="fa fa-check-circle" aria-hidden="true"></i>
+                                            {% else %}
+                                               <i style="color: red; font-size: xx-small;" class="fa fa-times-circle" aria-hidden="true"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" >
+                                                <span style="line-height: 10px; align-content: start;" id="user_detail" data-id="{{ i.0 }}" class="btn btn-default  btn-sm">View</span>
+                                              </div>
+                                        </td>
+                                    
+                                    </tr>
+                    
+                                  {% endfor %}
+                                  <!-- {% endwith %} -->
+                                </tbody>
+                            </table>
+                        </div>
+          
+
+          

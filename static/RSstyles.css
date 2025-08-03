@@ -1,0 +1,27 @@
+/* Basic table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    /* border: 1px solid #ddd; */
+    padding: 8px;
+    position: relative; /* For positioning the resize handle */
+}
+
+th {
+    background-color:rgb(188, 213, 237);
+    cursor: col-resize; /* Show resize cursor on column headers */
+}
+
+/* Resize handle styling */
+th .resize-handle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    cursor: col-resize;
+    background-color: rgb(188, 213, 227);
+}

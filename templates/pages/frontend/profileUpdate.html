@@ -1,0 +1,93 @@
+{% extends 'superAdmin/layouts/base.html' %}
+{% load static %}
+{% block title %}  {% endblock title %}
+{% block extrastyle %}
+<!-- jsGrid -->
+<link rel="stylesheet" href="{% static 'plugins/jsgrid/jsgrid.min.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/jsgrid/jsgrid-theme.min.css' %}">
+<link rel="stylesheet" href="{% static 'table.css' %}">
+{% endblock extrastyle %}
+{% block bodyclass %} hold-transition sidebar-mini {% endblock bodyclass %}
+{% block content %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper text-sm">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>የUsers </h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+              <li class="breadcrumb-item active">የUsers </li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="container">
+            <div class="row">
+             <div class="col-12" >
+                <div class="card border-primary ">
+                    <div class="card-header bg-cyan text-white">
+                      Users Profile update page
+                </div>
+                <form method = "post" enctype="multipart/form-data" style="padding-top: 2%;">
+                    {% csrf_token %}
+                    <div class="col-md-12 text-sm">
+                    <div class="row" style="margin-left: 1%;">
+                      <div class="form-group">
+                        <label>የመጀመሪያ ስም</label>  
+                        {{ form.first_name }}  
+                        {{ form.first_name.errors }} 
+                       </div>
+                      <div class="form-group">
+                        <label>የአባት ስም</label>  
+                        {{ form.last_name }}  
+                        {{ form.last_name.errors }}  <!-- Displays any validation errors -->
+                       </div>
+                      <div class="form-group">
+                        <label>እሜይል</label>  
+                        {{ form.email }}  
+                        {{ form.email.errors }}  <!-- Displays any validation errors -->
+                       </div>
+                      <div class="form-group">
+                        <label>የይለፍ ቃል</label>  
+                        {{ form.password }}  
+                        {{ form.password.errors }}  <!-- Displays any validation errors -->
+                       </div>
+                      <div class="form-group">
+                        <label>ፕሮፋይል ፎቶ</label>  
+                        {{ form.user_profile }}  
+                        {{ form.user_profile.errors }} 
+                       </div>
+                      
+                    </div>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-info offset-5">ለውጥ አስቀምጥ</button>
+
+                </form>
+                <br>
+                </div>
+                </div>
+         </div>
+         </div>
+        </section>
+
+
+    <!-- /.content -->
+  </div>
+{% endblock content %}
+{% block extra_scripts %}
+<!-- jsGrid -->
+<script src="{% static 'plugins/jsgrid/demos/db.js' %}"></script>
+<script src="{% static 'plugins/jsgrid/jsgrid.min.js' %}"></script>
+<script src="{% static 'table.js' %}"></script>
+<!-- Page specific script -->
+
+{% endblock extra_scripts %}

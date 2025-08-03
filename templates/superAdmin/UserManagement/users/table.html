@@ -1,0 +1,58 @@
+
+                        <div class="card-body table-responsive-sm table-responsive-sm table-responsive-md">
+                            <table class="table text-sm  table-striped table-bordered editable" id="example2" width="100%">
+                                <thead>
+                                    <tr style="line-height: 14px;">
+                                        <th>S.N</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Is Staff</th>
+                                        <th>Is Active</th>
+                                        <th>Action</th>
+                                
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- {% with foo_num=forloop.counter %}  -->
+                                    {% for i in user %}
+                                 
+                                    <tr style="line-height: 14px;">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ i.first_name }}</td>
+                                        <td>{{ i.last_name }}</td>
+                                        <td>{{ i.email  }}</td>
+                                        <td>{{ i.user_roles.role_name }}</td>
+                                        <td>
+                                        
+                                            {% if i.is_staff == 1 %}
+                                               <i style="color: green; font-size: xx-small;" class="fa fa-check-circle" aria-hidden="true"></i>
+                                            {% else %}
+                                               <i style="color: red; font-size: xx-small;" class="fa fa-times-circle" aria-hidden="true"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if i.is_active == 1 %}
+                                               <i style="color: green; font-size: xx-small;" class="fa fa-check-circle" aria-hidden="true"></i>
+                                            {% else %}
+                                               <i style="color: red; font-size: xx-small;" class="fa fa-times-circle" aria-hidden="true"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" >
+                                                <span style="line-height: 10px; align-content: start;" id="user_detail" data-id="{{ i.id }}" class="btn btn-default  btn-sm">View</span>
+
+                                            </div>
+                                        </td>
+                                    
+                                    </tr>
+                    
+                                  {% endfor %}
+                                  <!-- {% endwith %} -->
+                                </tbody>
+                            </table>
+                        </div>
+          
+
+          

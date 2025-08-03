@@ -1,0 +1,35 @@
+<hr><br>
+{% for i in nation %}
+<div class="col-md-12 text-sm">
+    <!-- About Me Box -->
+   <div class="row">
+      <!-- /.card-header -->
+     
+        <div class="col-md-3 text-sm">
+        <label> ስም</label>
+
+        <p class="text-muted">
+            <input type="text" class="form-control form-control-border" id="nation_name" placeholder="ስም" value="{{ i.name }}">
+        </p>
+    </div>
+    <div class="col-md-7 text-sm">
+        <label> መግለጫ</label>
+
+        <p class="text-muted">
+            <input type="textArea" class="form-control form-control-border" id="nation_description" placeholder="መግለጫ" value="{{ i.description }}">
+        </p>
+    </div>
+    <div class="col-md-2 text-sm mt-4">
+        <p class="btn-group">
+            <span id="update_nation" data-id="{{ i.id }}" class="btn btn-warning btn-sm">ለዉጥ አስቅሚጥ</span>
+        </p>
+</div>
+       
+  </div>
+</div>
+{% endfor %}
+
+
+
+
+          

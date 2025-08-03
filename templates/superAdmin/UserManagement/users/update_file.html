@@ -1,0 +1,88 @@
+{% extends 'superAdmin/layouts/base.html' %}
+{% load static %}
+{% block title %}  {% endblock title %}
+{% block extrastyle %}
+<!-- jsGrid -->
+<link rel="stylesheet" href="{% static 'plugins/jsgrid/jsgrid.min.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/jsgrid/jsgrid-theme.min.css' %}">
+<link rel="stylesheet" href="{% static 'table.css' %}">
+{% endblock extrastyle %}
+{% block bodyclass %} hold-transition sidebar-mini {% endblock bodyclass %}
+{% block content %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper text-sm">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Users</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+              <li class="breadcrumb-item active">Users</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+      <!-- Main content -->
+      <section class="content">
+        <div class="container">
+          <div class="col-12" id="alert"></div>
+            <div class="row">
+             <div class="col-12">
+                <div class="card border-primary ">
+                    <div class="card-header bg-secondary text-white">
+                        
+                </div>
+                <br>
+                
+                <div class="row">
+                   
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group col-10 offset-1">
+                                <label for="exampleInputFile">File Upload</label>
+                                <div class="input-group">
+                                  <div class="custom-file">
+                                    <input type="file" name="new_file" class="custom-file-input" id="exampleInputFile">
+                                    <label class="custom-file-label" for="exampleInputFile">Select File</label>
+                                  </div>
+                                  <div class="input-group-append">
+                                    <button type="submit" class="input-group-text">Upload</span>
+                                  </div>
+                                </div>
+                              </div>
+                        </form>
+                        
+                        </div>
+
+            </div> 
+                </div>
+                </div>
+         </div>
+         </div>
+        </section>
+
+    <!-- /.content -->
+    <!-- /.content -->
+  </div>
+{% endblock content %}
+{% block extra_scripts %}
+<!-- jsGrid -->
+ <script>
+    $(function () {
+      bsCustomFileInput.init();
+    });
+    </script>
+    <script src="{% static 'plugins/bs-custom-file-input/bs-custom-file-input.min.js' %}"></script>
+<!-- Page specific script -->
+
+<!-- Page specific script -->
+
+{% endblock extra_scripts %}

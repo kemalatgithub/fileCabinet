@@ -1,0 +1,94 @@
+{% extends 'superAdmin/layouts/base.html' %}
+{% load static %}
+{% block title %}  {% endblock title %}
+{% block extrastyle %}
+<!-- jsGrid -->
+<link rel="stylesheet" href="{% static 'plugins/jsgrid/jsgrid.min.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/jsgrid/jsgrid-theme.min.css' %}">
+<link rel="stylesheet" href="{% static 'table.css' %}">
+{% endblock extrastyle %}
+{% block bodyclass %} hold-transition sidebar-mini {% endblock bodyclass %}
+{% block content %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper text-sm">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>ኢሜይል</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+              <li class="breadcrumb-item active">ኢሜይል</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container">
+            <div class="row">
+             <div class="col-12">
+                <div class="card border-primary ">
+                    <div class="card-header text-white" style="background-color: #00ade6;">
+                        <h4 class="card-title float-left"> <i class="livicon" data-name="list-ul" data-size="16" data-loop="true" data-c="#fff" data-hc="white"></i>
+                          ኢሜይል ዚርዚር
+                        </h4>
+                        <div class="float-sm-right">
+                          {% if perms.registrar.add_membership %}
+                          <a href="#"  style="font-size: xx-small;" type="button" id="new_email" class="btn btn-warning">አዲስ</a>
+                          {% endif %}
+                        </div>
+                </div>
+                <div id="email_alert"></div>
+                <div id="email_create_field">
+
+                </div>
+                <hr style="font-size: larger;">
+                    <div class="card-body table-responsive">
+                        <div id="search_alert"></div>
+                        <div class="row">
+                            <hr>
+                                <!-- copied  -->
+                                <br>
+                                <div class="col-sm-12" style="text-align: center;">
+                                  <div class="card-body table-responsive">
+                        
+                                    {% include 'superAdmin/Notification/notification/table.html'%}
+                                </div>
+                                <!-- copied -->
+                            <hr>
+            
+                            <div id="search_form">
+            
+                            </div>
+                            <div id="memberDetailsView">
+                                <div id="search_result" class="search_result">
+
+                                </div>
+                            </div>
+                            </div>
+            </div>
+                    </div>
+                    
+                </div>
+                </div>
+         </div>
+         </div>
+        </section>
+
+    <!-- /.content -->
+  </div>
+{% endblock content %}
+{% block extra_scripts %}
+<!-- jsGrid -->
+<script src="{% static 'plugins/jsgrid/demos/db.js' %}"></script>
+<script src="{% static 'plugins/jsgrid/jsgrid.min.js' %}"></script>
+<script src="{% static 'table.js' %}"></script>
+<!-- Page specific script -->
+
+{% endblock extra_scripts %}

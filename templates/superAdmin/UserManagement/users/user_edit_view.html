@@ -1,0 +1,141 @@
+{% load static %}
+{% for i in user %}
+<div class="row text-sm">
+<div class="col-md-6">
+    <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">User Information</h3>
+        </div>
+    <!-- Profile Image -->
+    <div class="card card-primary card-outline">
+      <div class="card-body box-profile">
+        <div id="profile_field" class="col-md-12">
+        </div>
+        <div class="text-center">
+          <img src="{{ media_url }}{{i.user_profile}}"
+               alt="User profile" width="10%" height="10%">
+               <!-- <button style="font-size: xx-small; margin-left: 10%;" data-id="{{ i.id }} "class="btn btn-xs btn-info" id="change_profile">Change </button> -->
+
+        </div>
+        
+      
+        <h3 class="profile-username text-center">{{ i.first_name }} {{ i.last_name }}</h3>
+
+        <!-- <p class="text-muted text-center">{{ i.email }}</p> -->
+
+        <ul class="list-group list-group-unbordered mb-3">
+          <li class="list-group-item">
+            <b>First Name: -</b> <span>{{ i.first_name }}</span>
+          </li>
+          <li class="list-group-item">
+            <b>Last Name: -</b> <span>{{ i.last_name }}</span>
+          </li>
+          <li class="list-group-item">
+            <b>Email: -</b> <span>{{ i.email }}</span>
+          </li>
+          <li class="list-group-item">
+            <b>User Roles: -</b> <span>{{ i.user_roles.role_name }}</span>
+          </li><br>
+          <a href="/superAdminupdate_profile/ {{i.id}}"> <span style="line-height: 15px; margin-left: 60%;" id="photo_change" data-id="{{ i.id }}" class="btn btn-warning btn-sm">Change Photo</span></a>
+        </ul>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+</div>
+<div class="col-md-6 text-sm">
+    <!-- About Me Box -->
+    <div class="card card-secondary">
+      <div class="card-header">
+        <h3 class="card-title">Add New Information</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body text-sm">
+        <strong><i class="fas fa-book mr-1"></i> First Name</strong>
+
+        <p class="text-muted">
+            <input type="text" value="{{ i.first_name }}" class="form-control form-control-border" id="first_nameu" placeholder="First Name">
+        </p>
+
+       
+        <strong><i class="fas fa-book mr-1"></i> Last Name</strong>
+
+        <p class="text-muted">
+            <input type="text" value="{{ i.last_name }}" class="form-control form-control-border" id="last_nameu" placeholder="Last Name">
+        </p>
+
+       
+        <strong><i class="fa fa-envelope mr-1"></i> Email</strong>
+
+        <p class="text-muted">
+            <input type="email" value="{{ i.email }}" class="form-control form-control-border" id="emailu" placeholder="Email">
+        </p>
+
+       
+        <strong><i class="fa fa-user mr-1"></i> Password <span style="color: red; font-size: large;">*</span></strong>
+
+        <p class="text-muted">
+            <input type="password" class="form-control form-control-border" id="passwordu" placeholder="Password">
+        </p>
+       
+        <strong><i class="fas fa-map-marker-alt mr-1"></i> User Roles</strong>
+
+        <p class="text-muted">
+
+            <select name="type" id='user_rolesu' class="form-control form-control-border">
+                <option value="{{ i.user_roles.id }}" class="offset-5">{{ i.user_roles.role_name }}</option>
+                {% for k in role %}
+                <option value="{{ k.id }}">{{ k.role_name }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <strong><i class="fa fa-user mr-1"></i> Is_active</strong>
+        {% if i.is_active == 1 %}
+        <p class="text-muted offset-2">
+          <input type="checkbox" checked style="width:14px;height: 14px;margin-top: -15px; margin-left: 10px;"class="form-control form-control-border"id="is_activeu" name="is_active" />
+        </p>
+        {% else %}
+        <p class="text-muted offset-2">
+          <input type="checkbox" style="width:14px;height: 14px;margin-top: -15px; margin-left: 10px;"class="form-control form-control-border"id="is_activeu" name="is_active" />
+        </p>
+        {% endif %}
+        <strong><i class="fa fa-user mr-1"></i> Is_staff</strong>
+        {% if i.is_staff == 1 %}
+        <p class="text-muted offset-2">
+          <input type="checkbox" checked style="width:14px;height: 14px;margin-top: -15px; margin-left: 10px;"class="form-control form-control-border"id="is_staffu" name="is_staff" />
+        </p>
+        {% else %}
+        <p class="text-muted offset-2">
+          <input type="checkbox" style="width:14px;height: 14px;margin-top: -15px; margin-left: 10px;"class="form-control form-control-border"id="is_staffu" name="is_staff" />
+        </p>
+        {% endif %}
+        <hr>
+        <strong><i class="fa fa-user mr-1"></i> Is_superuser</strong>
+        {% if i.is_superuser == 1 %}
+        <p class="text-muted offset-2">
+          <input type="checkbox" checked style="width:14px;height: 14px;margin-top: -20px; margin-left: 10%;"class="form-control form-control-border"id="Is_superuseru" name="Is_superuser" />
+        </p>
+        {% else %}
+        <p class="text-muted offset-2">
+          <input type="checkbox" style="width:14px;height: 14px;margin-top: -20px; margin-left: 10%;"class="form-control form-control-border"id="Is_superuseru" name="Is_superuser" />
+        </p>
+        {% endif %}
+        <hr>
+        
+        <p class="btn-group offset-5">
+            <span  data-id="{{ i.id }}" id="update_user" class="btn btn-success btn-sm">Save Changes</span>
+        </p>
+        
+      
+       
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
+{% endfor %}
+
+
+          

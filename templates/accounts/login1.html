@@ -1,0 +1,66 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'dist/css/login.css' %}">
+<!-- Theme style -->
+<!-- <link rel="stylesheet" href="{https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"> 
+
+
+<link rel="stylesheet" href="{% static 'dist/css/login/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'dist/css/login/css/fontawsome.css' %}">
+<link rel="stylesheet" href="{% static 'dist/css/login/css/bootstrap.bundle.min.js' %}">
+<link rel="stylesheet" href="{% static 'dist/css/login/css/jQuery.js' %}">
+<div class="wrapper text-sm">
+    <div class="logo">
+        <img src="{% static 'dist/img/pp.jpeg' %}" alt="logo">
+        <!-- <img src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt=""> -->
+    </div>
+    <div class="text-center mt-4 name">
+        PSSSAS_PP_Memberships
+    </div>
+    <br>
+        <form method="post">
+          {% csrf_token %}
+  
+          {% if form.non_field_errors %}
+            {% for error in form.non_field_errors  %}
+              <small class="text-danger mb-3">{{ error }}</small>
+            {% endfor %}
+          {% endif %}
+  
+          {% for field in form %}
+         
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <span class=" fas {% if field.name == 'username' %} fa-user {% else %}  fa-lock {% endif %}" style="padding-top:5%; color: cadetblue; font-size: x-large; "></span>
+                </div>
+              </div>
+            {{field}}
+          </div>
+          <small class="text-danger">{{ field.errors }}</small>
+          {% endfor %}
+          <div class="row">
+            <div class="col-7 text-sm">
+              <div class="icheck-primary">
+                <input type="checkbox" id="remember">
+                <label for="remember">
+                  Remember Me
+                </label>
+              </div>
+            </div> </div>
+            <br>
+            <!-- /.col -->
+            <div class="col-12 text-sm">
+              <button type="submit" style="background-color: #5088d1fd;" class="btn btn-default btn-sm btn-block">Sign In</button>
+            </div>
+            <!-- /.col -->
+         
+          
+        </form>
+       
+    <div class="text-center fs-6" style="margin-top: 30%;">
+      <i style="font-size: xx-small;" class="fa fa-question-circle" aria-hidden="true"></i> <a href="{% url '' %}" title="Request How to use the system">Help?  </a>
+    </div>
+</div>

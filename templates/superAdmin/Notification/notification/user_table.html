@@ -1,0 +1,74 @@
+{% load static %}
+                        <!-- <div class="float-sm-right">
+                            <button style="font-size: xx-small;" type="button" id="user_detail" class="btn btn-info">detail</button>
+                        <button  style="font-size: xx-small;" type="button" id="አዲስ_request" class="btn btn-primary">አዲስ</button>
+                        </div> -->
+                        <link rel="stylesheet" type="text/css" href="{% static 'RSstyles.css' %}">
+
+                        <div class="card-body table-responsive-sm table-responsive-sm table-responsive-md">
+                            <table class="table text-sm  table-striped table-bordered editable" id="example3" width="100%">
+                                <thead>
+                                    <tr style="line-height: 14px;">
+                                        <th>ተ.ቁ</th>
+                                        <th>የመጀመሪያው ስም</th>
+                                        <th>የመጨረሻ ስም</th>
+                                        <th>ኢሜይል</th>
+                                        <th>ድርጊት</th>
+                                
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- {% with foo_num=forloop.counter %}  -->
+                                    {% for i in notif_user %}
+                                 
+                                    <tr style="line-height: 14px;">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ i.first_name }}</td>
+                                        <td>{{ i.last_name }}</td>
+                                        <td>{{ i.email  }}</td>
+                                        <td>
+                                            <div class="btn-group" >
+                                                <span style="line-height: 10px; align-content: start;" id="delete_not_user_warning" data-id="{{ i.id }}" class="btn btn-danger  btn-sm">አጥፉ</span>
+                                            </div>
+                                        </td>
+                                    
+                                    </tr>
+                    
+                                  {% endfor %}
+                                  <!-- {% endwith %} -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal fade" id="not_user_delete_show" tabindex="-1" role="dialog" aria-labelledby="user_delete_confirm_title"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header" >
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div id="email_alert"></div>
+                            <div class="modal-body">
+                                <p>እርግጠኛ ነዎት ማጥፋት ይፈልጋሉ, ይህ ድርጊት የማይመለስ ይሆናል!!</p>
+                            
+                                <button type="button" class="btn btn-danger btn-sm  offset-10" id="delete_not_user">አጥፉ</button>
+                            </div>
+                            
+                        </div>
+                        </div>
+                        </div>
+        
+                        <script src="{% static 'RSscripts.js' %}"></script>
+                 
+                        <script>
+                            $(function () {
+                                $("#example0").DataTable({
+                                    "responsive": true, "lengthChange": false, ordering: false, "autoWidth": false,pageLength: 10,
+                                    "buttons": ["excel", "pdf", "print"]
+                                });
+                              
+                            });
+                        
+                        </script>
+                           

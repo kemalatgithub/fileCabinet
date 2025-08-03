@@ -1,0 +1,46 @@
+{% for k in user %}
+<div class=" form-control col-md-12" style="background-color:cornflowerblue;">Permission List for User: - <b> {{ k.first_name }} {{ k.last_name }}</b>
+</div><br>
+<div class="col-md-12">
+    <span  data-id="{{ k.id }}" id="permission" class="btn btn-secondary btn-sm float-right "><i class="fa fa-plus"></i>New</span>
+</div>
+
+<div class="card-body table-responsive-sm table-responsive-sm table-responsive-md">
+    <table class="table text-sm  table-striped table-bordered editable" id="viewP" width="100%">
+        <thead>
+            <tr style="line-height: 14px;">
+                <th>Check</th>
+                <th>Permission Name</th>
+                <th>Permission Code</th>
+                <!-- <th>actions</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in permission %}
+            <tr style="line-height: 14px;">
+                
+                <td>
+                   <label style="color: red; line-height: 10px;">Revoke </label><input type="checkbox" onclick="calc();" data-id="{{ i.3 }}" style="width:14px;height: 14px;margin-left: 5%; line-height: 10px;"class="DeletePermission" id="{{ i.3 }}">
+                </td>
+                <td>{{ i.1 }}</td>
+                <td>{{ i.2 }}</td>
+                <!-- <td>
+                    <span  style="line-height: 10px; align-content: start;" data-id="{{ i.3 }}" id="DeletePermission" class="btn btn-default btn-sm">Revoke</span>
+                </td> -->
+            </tr>
+
+          {% endfor %}
+        </tbody> 
+    </table>
+</div>
+<input type="hidden" id="user_id" value="{{ k.id }}">
+{% endfor %}
+<script>
+   
+      $("#viewP").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,pageLength: 10,
+        "buttons": ["excel", "pdf", "print"]
+      }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+      
+
+  </script>

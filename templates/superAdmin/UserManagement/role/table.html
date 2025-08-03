@@ -1,0 +1,58 @@
+
+                
+                        <div class="card-body table-responsive-lg table-responsive-sm table-responsive-md">
+                            <table class="table table-striped table-bordered editable" id="example2" width="100%">
+                                <thead>
+                                    <tr style="line-height: 14px;">
+                                        <th>S.N</th>
+                                        <th>Role Name</th>
+                                        <th>Description</th>
+                                        <th>Action</th>
+                                
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    
+                                    {% for i in role %}
+                                
+                                    <tr style="line-height: 10px;">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ i.role_name }}</td>
+                                        <td>{{ i.description }}</td>
+                                        <td>
+                                            <div class="btn-group" >
+                                                <span style="line-height: 8px;" type="button" id="role_edit" data-id="{{ i.id }}" class="btn btn-info  btn-sm">Edit</span>
+                                                <span style="line-height: 10px; align-content: start;" id="delete_role_warning" data-id="{{ i.id }}" class="btn btn-danger  btn-sm">Delete</span>
+                                              </div>
+                                        
+                                          
+                                        </td>
+                                    
+                                    </tr>
+                    
+                                  {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+          
+                        <div class="modal fade" id="role_delete_show" tabindex="-1" role="dialog" aria-labelledby="user_delete_confirm_title"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header" >
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure? this action is not replacable!!</p>
+                            
+                                <button type="button" class="btn btn-danger btn-sm  offset-10" id="delete_role">Delete</button>
+                            </div>
+                            
+                        </div>
+                        </div>
+                        </div>
+
+
+          

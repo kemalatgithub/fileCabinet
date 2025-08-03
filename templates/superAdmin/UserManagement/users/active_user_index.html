@@ -1,0 +1,66 @@
+{% extends 'superAdmin/layouts/base.html' %}
+{% load static %}
+{% block title %}  {% endblock title %}
+{% block extrastyle %}
+<!-- jsGrid -->
+<link rel="stylesheet" href="{% static 'table.css' %}">
+{% endblock extrastyle %}
+{% block bodyclass %} hold-transition sidebar-mini {% endblock bodyclass %}
+{% block content %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper text-sm">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Active የተጠቃሚዎች ዝርዝር</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+              <li class="breadcrumb-item active">Active Users</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container">
+            <div class="row">
+             <div class="col-12">
+                <div class="card border-primary ">
+                    <div class="card-header text-white" style="background-color: #00ade6;">
+                        <h4 class="card-title float-left"> <i class="livicon" data-name="list-ul" data-size="16" data-loop="true" data-c="#fff" data-hc="white"></i>
+                            Active የተጠቃሚዎች ዝርዝር
+                        </h4>
+                        <!-- <div class="float-sm-right">
+                            <button style="font-size: xx-small;" type="button" id="user_detail" class="btn btn-info">detail</button>
+                          <button  style="font-size: xx-small;" type="button" id="new_request" class="btn btn-primary">New</button>
+                    </div> -->
+                </div>
+                    <div class="card-body table-responsive">
+                        {% include 'superAdmin/UserManagement/users/active_user_table.html'%}
+                    </div>
+                </div>
+                </div>
+         </div>
+         <hr>
+         <div id="user_details">
+
+         </div>
+         </div>
+        </section>
+
+    <!-- /.content -->
+  </div>
+{% endblock content %}
+{% block extra_scripts %}
+<!-- jsGrid -->
+{% include 'superAdmin/includes/scripts.html'%}
+<script src="{% static 'table.js' %}"></script>
+<!-- Page specific script -->
+
+{% endblock extra_scripts %}

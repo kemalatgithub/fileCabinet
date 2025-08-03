@@ -1,0 +1,59 @@
+
+                        <!-- <div class="float-sm-right">
+                            <button style="font-size: xx-small;" type="button" id="user_detail" class="btn btn-info">detail</button>
+                        <button  style="font-size: xx-small;" type="button" id="አዲስ_request" class="btn btn-primary">አዲስ</button>
+                        </div> -->
+                        <div class="card-body table-responsive-sm table-responsive-sm table-responsive-md">
+                            <table class="table text-sm  table-striped table-bordered editable" id="example2" width="100%">
+                                <thead>
+                                    <tr style="line-height: 14px;">
+                                        <th>ተ.ቁ</th>
+                                        <th>ስም</th>
+                                        <th>መግለጫ</th>
+                                        <th>ድርጊቶች</th>
+                                
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- {% with foo_num=forloop.counter %}  -->
+                                    {% for i in federal_zone %}
+                                 
+                                    <tr style="line-height: 14px;">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ i.name }}</td>
+                                        <td>{{ i.description }}</td>
+                                        <td>
+                                            <div class="btn-group" >
+                                                <span style="line-height: 10px; align-content: start;" id="federal_zone_edit" data-id="{{ i.id }}" class="btn btn-info  btn-sm">አሻሽል</span>
+                                                <span style="line-height: 10px; align-content: start;" id="delete_federal_zone_warning" data-id="{{ i.id }}" class="btn btn-danger  btn-sm">አጥፉ</span>
+
+                                            </div>
+                                        </td>
+                                    
+                                    </tr>
+                    
+                                  {% endfor %}
+                                  <!-- {% endwith %} -->
+                                </tbody>
+                            </table>
+                        </div>
+          
+                        <div class="modal fade" id="federal_zone_delete_show" tabindex="-1" role="dialog" aria-labelledby="user_delete_confirm_title"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header" >
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>እርግጠኛ ነዎት ማጥፋት ይፈልጋሉ, ይህ ድርጊት የማይመለስ ይሆናል!!</p>
+                            
+                                <button type="button" class="btn btn-danger btn-sm  offset-10" id="delete_federal_zone">አጥፉ</button>
+                            </div>
+                            
+                        </div>
+                        </div>
+                        </div>
+          

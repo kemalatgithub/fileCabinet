@@ -1,0 +1,46 @@
+<hr><br>
+{% for i in federal_woreda %}
+<div class="col-md-12 text-sm">
+    <!-- About Me Box -->
+   <div class="row">
+      <!-- /.card-header -->
+      <div class="col-md-6 text-sm">
+        <label> ፌዴራል ዞን</label>
+    
+        <p class="text-muted">
+            <select class="form-control form-control-border" id="federal_zone">
+                <option value="{{ federalzoneID }}" selected  >{{federalzone}}</option>
+                {% for i in federal_zone %}
+                <option value="{{ i.id }}">{{ i.name }}</option>
+                {% endfor %}
+            </select>
+           </p>
+        </div>
+        <div class="col-md-6 text-sm">
+        <label> ስም</label>
+
+        <p class="text-muted">
+            <input type="text" class="form-control form-control-border" id="federal_woreda_name" placeholder="federal_woreda Name" value="{{ i.name }}">
+        </p>
+    </div>
+    <div class="col-md-12 text-sm">
+        <label> መግለጫ</label>
+
+        <p class="text-muted">
+            <input type="textArea" class="form-control form-control-border" id="federal_woreda_description" placeholder="federal_woreda Description" value="{{ i.description }}">
+        </p>
+    </div>
+    <div class="col-md-2 text-sm offset-10">
+        <p class="btn-group">
+            <span id="update_federal_woreda" data-id="{{ i.id }}" class="btn btn-warning btn-sm">ለዉጥ አስቅሚጥ</span>
+        </p>
+</div>
+       
+  </div>
+</div>
+{% endfor %}
+
+
+
+
+          

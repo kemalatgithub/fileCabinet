@@ -1,0 +1,215 @@
+{% load static %}
+<script>
+
+function ToggleSearchType(){
+var rates = document.getElementsByName('SearchType');
+var value;
+for (var i = 0; i < rates.length; i++) {
+    if (rates[i].checked) {
+        value = rates[i].value;
+    }
+}
+    $.ajax({
+        url: 'search_view',
+        data: { 
+            value:value,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            $('#search_form').html(data);
+
+        }
+    });
+}
+$(document).on('click', '#profileTag', function (e) {
+    var id = $(this).data('id'); 
+    $.ajax({
+        url: 'staff_details',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#staff_details').html(data);
+
+        }
+    });
+});
+$(document).on('change', '#qualification', function (e) {
+    var qualification = $("#qualification").val();
+    if(qualification =='')
+    {
+    alert("Select Appropriate Qualification")
+    }else{
+    $.ajax({
+        url: 'search_by_qualification',
+        data: { 
+            qualification:qualification,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#rearch_result').html(data);
+
+        }
+    });
+}
+});
+$(document).on('change', '#rank', function (e) {
+    var rank = $("#rank").val();
+    if(rank =='')
+    {
+    alert("Select Appropriate Rank")
+    }else{
+     
+    $.ajax({
+        url: 'search_by_rank',
+        data: { 
+            rank:rank,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#rearch_result').html(data);
+
+        }
+    });
+       
+}
+});
+
+$(document).on('change', '#crd_college', function (e) {
+    var crd_rank = $("#crd_rank").val();
+    var crd_department = $("#crd_department").val();
+    var crd_college = $("#crd_college").val();
+    if(crd_rank =="" || crd_college =="" || crd_department =="")
+    {
+    alert("Select Appropriate options")
+    }else{
+    $.ajax({
+        url: 'search_by_crd',
+        data: { 
+            crd_rank:crd_rank,
+            crd_department:crd_department,
+            crd_college:crd_college,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#rearch_result').html(data);
+
+        }
+    });
+       
+}
+});
+$(document).on('change', '#crd_rank', function (e) {
+    var crd_rank = $("#crd_rank").val();
+    var crd_department = $("#crd_department").val();
+    var crd_college = $("#crd_college").val();
+    if(crd_rank =="" || crd_college =="" || crd_department =="")
+    {
+    alert("Select Appropriate options")
+    }else{
+    $.ajax({
+        url: 'search_by_crd',
+        data: { 
+            crd_rank:crd_rank,
+            crd_department:crd_department,
+            crd_college:crd_college,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#rearch_result').html(data);
+
+        }
+    });
+       
+}
+});
+$(document).on('change', '#crd_department', function (e) {
+    var crd_rank = $("#crd_rank").val();
+    var crd_department = $("#crd_department").val();
+    var crd_college = $("#crd_college").val();
+    if(crd_rank =="" || crd_college =="" || crd_department =="")
+    {
+    alert("Select Appropriate options")
+    }else{
+    $.ajax({
+        url: 'search_by_crd',
+        data: { 
+            crd_rank:crd_rank,
+            crd_department:crd_department,
+            crd_college:crd_college,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#rearch_result').html(data);
+
+        }
+    });
+}
+});
+$(document).on('click', '#s-name', function (e) {
+    var name = $("#name").val();
+    if(name =='')
+    {
+    alert("Enter Name")
+    }else{
+    $.ajax({
+        url: 'search_by_name',
+        data: { 
+            name:name,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#rearch_result').html(data);
+
+        }
+    });
+}
+});
+
+// });
+</script>
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static 'dist/js/demo.js' %}"></script>
+
+
+<script>
+    // $('#example3').DataTable({
+    //   "paging": true,
+    //   "lengthChange": false,
+    //   "searching": false,
+    //   "ordering": true,
+    //   "info": true,
+    //   "autoWidth": false,
+    //   "responsive": true,
+    // });
+
+    $('example3').pagination({
+        items: 20,
+        itemOnPage: 8,
+        currentPage: 1,
+        cssStyle: '',
+        prevText: '<span aria-hidden="true">&laquo;</span>',
+        nextText: '<span aria-hidden="true">&raquo;</span>',
+        onInit: function () {
+            // fire first page loading
+        },
+        onPageClick: function (page, evt) {
+            // some code
+        }
+    });
+ </script>

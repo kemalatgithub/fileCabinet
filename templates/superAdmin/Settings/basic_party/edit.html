@@ -1,0 +1,46 @@
+<hr><br>
+{% for i in basic_party %}
+<div class="col-md-12 text-sm">
+    <!-- About Me Box -->
+   <div class="row">
+      <!-- /.card-header -->
+      <div class="col-md-6 text-sm">
+        <label> ፌዴራል ዞን</label>
+    
+        <p class="text-muted">
+            <select class="form-control form-control-border" id="federal_woreda">
+                <option value="{{ pre_basicPID }}" selected>{{pre_basicP}}</option>
+                {% for i in federal_woreda %}
+                <option value="{{ i.id }}">{{ i.name }}</option>
+                {% endfor %}
+            </select>
+           </p>
+        </div>
+        <div class="col-md-6 text-sm">
+        <label> ስም</label>
+
+        <p class="text-muted">
+            <input type="text" class="form-control form-control-border" id="basic_party_name" placeholder="basic_party Name" value="{{ i.name }}">
+        </p>
+    </div>
+    <div class="col-md-12 text-sm">
+        <label> መግለጫ</label>
+
+        <p class="text-muted">
+            <input type="textArea" class="form-control form-control-border" id="basic_party_description" placeholder="basic_party Description" value="{{ i.description }}">
+        </p>
+    </div>
+    <div class="col-md-2 text-sm offset-10">
+        <p class="btn-group">
+            <span id="update_basic_party" data-id="{{ i.id }}" class="btn btn-warning btn-sm">ለዉጥ አስቅሚጥ</span>
+        </p>
+</div>
+       
+  </div>
+</div>
+{% endfor %}
+
+
+
+
+          

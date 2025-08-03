@@ -1,0 +1,165 @@
+{% extends 'superAdmin/layouts/base.html' %}
+{% load static %}
+
+{% block title %} User Dashboard {% endblock title %}
+
+{% block bodyclass %} hold-transition sidebar-mini {% endblock bodyclass %}
+
+{% block content %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper text-sm">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6 text-sm">
+            <h1>Dashboard</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#"></a></li>
+              <li class="breadcrumb-item active">User Dashboard</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-users"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Users Number</span>
+                <span class="info-box-number">{{ users }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+
+          <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Active Users</span>
+                <span class="info-box-number">{{ active_users }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-users"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Inactive Users</span>
+                <span class="info-box-number">{{ inactive_users }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <div class="col-md-12">
+
+          <div class="card" >
+              <div class="card-header" style="background: #17a2b8; color: white">
+                  <h3 class="card-title"><b>Data Visualization</b></h3>
+
+                  <div class="card-tools">
+
+                  </div>
+              </div>
+              <div class="card-body">
+                  <canvas id="bar-chart-grouped" width="" height=""></canvas>
+              </div>
+              <!-- /.card-body -->
+          </div>
+      </div>
+      </div><!-- /.container-fluid -->
+      <input type="hidden" id="region_num" value = "{{ regionn }}">
+      <input type="hidden" id="zone_num" value = "{{ zonen }}"> 
+      <input type="hidden" id="woredan" value = "{{ woredan }}"> 
+      <input type="hidden" id="districtn" value = "{{ districtn }}"> 
+      <input type="hidden" id="celln" value = "{{ celln }}"> 
+      <input type="hidden" id="federalzonen" value = "{{ federalzonen }}"> 
+      <input type="hidden" id="federalWoredan" value = "{{ federalWoredan }}"> 
+      <input type="hidden" id="basic_partyn" value = "{{ basic_partyn }}"> 
+      <input type="hidden" id="nationn" value = "{{ nationn }}"> 
+      <input type="hidden" id="kebelen" value = "{{ kebelen }}"> 
+    </section>
+    <!-- /.content -->
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  <script src="{% static 'plugins/chart.js/Chart.min.js' %}"></script>
+  // Chart 
+  <script>
+  var mainoffice = document.getElementById('region_num');
+  var sectors = document.getElementById('zone_num');
+  var subsity = document.getElementById('woredan');
+  var Zone = document.getElementById('districtn');
+  var woreda = document.getElementById('celln');
+  
+  new Chart(document.getElementById("bar-chart-grouped"), {
+      type: 'bar',
+      data: {
+          labels: [],
+          datasets: [
+              {
+                  label: "Main Office",
+                  backgroundColor: "#8e44dc",
+                  data: [1]
+              
+              }, {
+                  label: "Sectors",
+                  backgroundColor: "#00C0C0",
+                  data: [32]
+              },{
+                  label: "Subsity",
+                  backgroundColor: "#0d1dC0",
+                  data: [6]
+              },{
+                  label: "Zone",
+                  backgroundColor: "#0daeC0",
+                  data: [1]
+              },{
+                  label: "Woreda",
+                  backgroundColor: "#0a1dC0",
+                  data: [14]
+              },
+          ]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true,
+                      stepSize: 10
+                  }
+              }]
+          },
+          title: {
+              display: true,
+              text: 'File Status Visualization'
+          }
+      }
+  });
+</script>
+  {% endblock content %}

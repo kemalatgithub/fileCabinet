@@ -1,0 +1,63 @@
+
+<div class="row">
+  <div class="col-md-12 text-sm">
+    <div class="mt-3" style="margin-left: 2%; margin-right: 2%;">
+       
+        <div class="row">
+                <div class="form-group col-sm-6">
+                    <label>Email</label>
+                    <input type="email" class="form-control form-control-border"id="emailc" name="email" required ='required' placeholder="Email" required>
+                 </div>
+                <div class="form-group col-sm-6"> 
+                    <label>First Name</label>
+                    <input type="text" class="form-control form-control-border"id="first_namec" name="first_name" required ='required' placeholder="First Name" required>
+                 </div>
+                 <div class="form-group col-sm-6">
+                  <label>Last Name</label>
+                  <input type="text" class="form-control form-control-border"id="last_namec" required ='required' name="last_name" placeholder="Last Name" required>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label>Password</label>
+                    <input type="password" class="form-control form-control-border"id="passwordc" oninput="myFunction()" name="password" placeholder="Password" required>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label>Re-Password</label>
+                    <input type="password" class="form-control form-control-border"id="re-passwordc" oninput="myFunction()" name="password" placeholder="Re-Password" required>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label>Role</label>
+                    <select name="type" id='user_rolesc' class="form-control form-control-border text-sm">
+                      <option value="" disabled class="offset-5" selected>--- Select Users Role---</option>
+                      {% for k in role %}
+                      <option value="{{ k.id }}">{{ k.role_name }}</option>
+                      {% endfor %}
+                  </select>
+                 </div>
+                  <div class="form-group col-sm-2">
+                    <label>Is Staff</label>
+                    <input type="checkbox" checked style="width:14px;height: 14px; margin-left: 10px;"class="form-control form-control-border"id="is_staffc" name="is_staff" />
+                    <hr>
+                </div>
+                  <div class="form-group col-sm-2">
+                    <label>Is Active</label>
+                    <input type="checkbox" checked style="width:14px;height: 14px; margin-left: 10px;"class="form-control form-control-border"id="is_activec" name="is_active" />
+                    <hr>
+                </div>
+                  <div class="form-group col-sm-2">
+                    <label>Is SuperUser</label>
+                    <input type="checkbox" style="width:14px;height: 14px; margin-left: 10px;"class="form-control form-control-border"id="Is_superUserc" name="Is_superUser" />
+                    <hr>
+                </div>
+                  <div class="form-group col-sm-12">
+                  <div class="btn-group offset-5">
+                    <button type="reset" id="reset" class="btn btn-danger btn-sm">Cancel</button>
+                    <button type="button" class="btn btn-success btn-sm" id="save_and_return">Save</button>
+                  </div>
+                  </div>
+<br>
+<br>
+        </div>    
+    </div>
+  </div> 
+  
+  

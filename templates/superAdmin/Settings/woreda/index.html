@@ -1,0 +1,72 @@
+{% extends 'superAdmin/layouts/base.html' %}
+{% load static %}
+{% block title %}  {% endblock title %}
+{% block extrastyle %}
+<!-- jsGrid -->
+<link rel="stylesheet" href="{% static 'plugins/jsgrid/jsgrid.min.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/jsgrid/jsgrid-theme.min.css' %}">
+<link rel="stylesheet" href="{% static 'table.css' %}">
+{% endblock extrastyle %}
+{% block bodyclass %} hold-transition sidebar-mini {% endblock bodyclass %}
+{% block content %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper text-sm">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>ወረዳዎች</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+              <li class="breadcrumb-item active">ወረዳዎች</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container">
+            <div class="row">
+             <div class="col-12">
+                <div class="card border-primary ">
+                    <div class="card-header text-white" style="background-color: #00ade6;">
+                        <h4 class="card-title float-left"> <i class="livicon" data-name="list-ul" data-size="16" data-loop="true" data-c="#fff" data-hc="white"></i>
+                          ወረዳዎች ዚርዚር
+                        </h4>
+                        <div class="float-sm-right">
+                          {% if perms.superAdmin.add_woreda %}
+                          <button  style="font-size: xx-small;" type="button" id="new_woreda" class="btn btn-warning">አዲስ</button>
+                          {% endif %}
+                        </div>
+                </div>
+                <div id="woreda_alert"></div>
+                <div id="woreda_create_field">
+
+                </div>
+                <hr style="font-size: larger;">
+                    <div class="card-body table-responsive">
+                        
+                        {% include 'superAdmin/Settings/woreda/table.html'%}
+                    </div>
+                </div>
+                </div>
+         </div>
+         </div>
+        </section>
+
+    <!-- /.content -->
+  </div>
+{% endblock content %}
+{% block extra_scripts %}
+<!-- jsGrid -->
+<script src="{% static 'plugins/jsgrid/demos/db.js' %}"></script>
+<script src="{% static 'plugins/jsgrid/jsgrid.min.js' %}"></script>
+<script src="{% static 'table.js' %}"></script>
+<!-- Page specific script -->
+
+{% endblock extra_scripts %}

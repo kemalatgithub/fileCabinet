@@ -1,0 +1,176 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'dist/css/profile.css' %}">
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-dark navbar-light text-sm">
+  <!-- Left navbar links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars" style="color: white;" title="Collapse"></i></a>
+    </li>
+  
+  </ul>
+
+  <!-- Right navbar links -->
+  <ul class="navbar-nav ml-auto"style="padding-right: 5%;">
+    
+    {% if request.user.is_authenticated %}
+    
+         <ul class="ul float-sm-right">
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+              <i class="far fa-bell" style="color: white;"></i>
+              <span class="badge badge-danger navbar-badge">{{ notification }}</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <span class="dropdown-item dropdown-header">{{ notification }} መልዕክቶች</span>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" id="ViewNotification">
+                <i class="fas fa-envelope mr-2" ></i> {{new_notification}} አዲስ መልዕክቶች
+                {% if new_notification > 0 %}
+                <script>
+                var audio = new Audio("{% static 'dist/beep.mp3' %}");
+                audio.play();
+                </script>
+                {% endif %}
+                <input type="hidden" id="notification_counter" value="{{ new_notification }}">
+              </a>
+            
+            </div>
+          </li>
+          <li class="li" style="width: 20%;">
+              <div>
+                <i class="fa fa-cogs" style="color: white;"></i>
+
+               <!-- <img src="{{ media_url }}{{request.user.user_profile}}" style="height: 3%; width: 2%; padding: 0px; margin-right: 10%;" class="img-circle elevation-2 float-right" alt="User Image"> -->
+          </div>
+              <ul class="ul">
+                  <li class="sub-item">
+                    <div class="card-body">
+                      <div class="row mt-3">
+                        <div class="col-md-12 image" style="background-color: #E2E2E2;">
+                          <div class="text-center">
+                            <img class="profile-user-img img-fluid img-circle"
+                      src="{{ media_url }}{{request.user.user_profile}}"
+                           alt="profile picture">
+                          </div>
+                          <!-- <img src="{% static 'dist/img/userP.jpg' %}" style="height: 30%; width: 20%; margin-left: 15%;" class="img-circle elevation-0" alt="User Image"> -->
+                          <p style="font-size: large; text-align: center;">{{request.user.first_name}} {{request.user.last_name}}</p> 
+                        </div>
+                        <div class="col-md-12">
+                          <hr style="color: black; font-weight: bolder;">
+                        </div>
+                       
+                        <div class="col-md-12">
+                          <a href="{% url 'logout' %}" class="btn btn-sm nav-link">
+                            <button class="fa fa-sign-out-alt nav-icon btn btn-sm btn-danger btn-block" style="color:white;" title="Logout">Logout</button>
+                          </a>
+                         </div>
+                       <br>
+                      </div>
+                    </div>
+                  </li>
+               
+              </ul>
+          </li>
+      </ul>
+       <!-- </ul>
+     </li>   -->
+    
+    {% endif %} 
+  </ul>  
+</nav>
+<!-- /.navbar -->
+<div class="modal fade" id="update_own_user_profile" tabindex="-1" role="dialog" aria-labelledby="confirm_title"
+aria-hidden="true">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content">
+       <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+           </button>
+       </div>
+       <div id="profile_alert"></div>
+       <div class="modal-body">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header p-2">
+                  <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#security" data-toggle="tab">የUsers  አካውንት </a></li>
+                    <li class="nav-item"><a class="nav-link" href="#photo" data-toggle="tab">የአየፕሮፋይል ፎቶ</a></li>
+                  </ul>
+                </div><!-- /.card-header -->
+                <div class="card-body">
+                  <div class="tab-content">
+                    <div class="active tab-pane" id="security">
+                     <div class="card-body text-sm">
+                    <strong><i class="fas fa-book mr-1"></i> First Name</strong>
+            
+                    <p class="text-muted">
+                        <input type="text" value="{{ request.user.first_name }}" class="form-control form-control-border" id="first_name" placeholder="First Name">
+                    </p>
+            
+                   
+                    <strong><i class="fas fa-book mr-1"></i> Last Name</strong>
+            
+                    <p class="text-muted">
+                        <input type="text" value="{{ request.user.last_name }}" class="form-control form-control-border" id="last_name" placeholder="Last Name">
+                    </p>
+            
+                   
+                    <strong><i class="fa fa-envelope mr-1"></i> Email</strong>
+            
+                    <p class="text-muted">
+                        <input type="email" value="{{ request.user.email }}" class="form-control form-control-border" id="email" placeholder="Email">
+                    </p>
+                   
+                    <strong><i class="fa fa-user mr-1"></i> Password <span style="color: red; font-size: large;">*</span></strong>
+            
+                    <p class="text-muted">
+                        <input type="password" class="form-control form-control-border" id="password" placeholder="Password">
+                    </p>
+                            
+                  <p class="btn-group offset-5">
+                    <span  data-id="{{ request.user.id }}" id="update_own_user" class="btn btn-success btn-sm">Update</span>
+                </p>
+                
+                 </div> 
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="photo">
+                      <div>
+                        <h1>kemal</h1>
+                       </div>
+                    </div>
+                  
+                  </div>
+                  <!-- /.tab-content -->
+                </div><!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+             </div>
+       </div>
+</div>
+</div>
+
+<!-- Notification Modal  -->
+<div class="modal fade" id="ViewNotification_modal" tabindex="-1" role="dialog" aria-labelledby="ViewNotification_modal View"
+aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+    
+    <div class="modal-header" >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div id="email_alert"></div>
+    <div class="modal-body">
+        <div id="notification_list">
+        </div>
+        <hr>
+        
+        <div id="notif_detail"></div>
+        </div>
+    
+</div>
+</div>
+</div>

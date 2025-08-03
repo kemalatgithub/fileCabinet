@@ -1,0 +1,12 @@
+<div class="card border-primary ">
+    <div class="card-header text-white" style="background-color: #00ade6;">
+        <h5 class="card-title float-left"> 
+          ማሳወቂያዎች ዚርዚር
+        </h5>
+</div>
+<div class="col-md-12">
+    {% for i in notification %}
+    {{i.message}}
+    {% endfor %}
+</div>
+</div>

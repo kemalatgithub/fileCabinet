@@ -1,0 +1,104 @@
+{% load static %}
+{% for i in user %}
+<div class="col-md-12">
+<div class="card card-secondary">
+    <div class="card-header">
+      <h3 class="card-title">Users Profile</h3>
+    </div>
+<div class="row">
+<div class="col-md-6">
+    <!-- <div class="card card-secondary"> -->
+        <div class="card-header">
+          <h3 class="card-title">Basic Users Profile</h3>
+        </div>
+    <!-- Profile Image -->
+    <!-- <div class="card card-primary card-outline"> -->
+      <div class="card-body box-profile">
+        <div class="text-center">
+          <img src="{{ media_url }}{{i.user_profile}}"
+               alt="User profile" width="10%" height="10%">
+
+          <!-- class="profile-user-img img-fluid img-circle" -->
+        </div>
+
+        <h3 class="profile-username text-center">{{ i.first_name }} {{ i.last_name }}</h3>
+
+        <!-- <p class="text-muted text-center">{{ i.email }}</p> -->
+
+        <ul class="list-group list-group-unbordered mb-3">
+          <li class="list-group-item">
+            <b>First Name: -</b> <span>{{ i.first_name }}</span>
+          </li>
+          <li class="list-group-item">
+            <b>Last Name: -</b> <span>{{ i.last_name }}</span>
+          </li>
+        </ul>
+      </div>
+      <!-- /.card-body -->
+    <!-- </div> -->
+    <!-- /.card -->
+<!-- </div> -->
+</div> 
+<div class="col-md-6">
+    <!-- About Me Box -->
+    <!-- <div class="card card-secondary"> -->
+      <div class="card-header">
+        <h3 class="card-title">Account Information</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <strong><i class="fas fa-book mr-1"></i> Email</strong>
+
+        <p class="text-muted">
+            {{ i.email }}
+        </p>
+
+        <hr>
+
+        <strong><i class="fas fa-map-marker-alt mr-1"></i> User Role</strong>
+
+        <p class="text-muted">{{ i.user_roles.role_name }}</p>
+
+        <hr>
+
+        <strong><i class="fas fa-pencil-alt mr-1"></i> Actions</strong>
+
+        <p class="btn-group offset-5">
+            <span  data-id="{{ i.id }}" id="edit" class="btn btn-info btn-sm">Edit</span>
+            {% if i.is_superuser != 1 %}
+            <span  data-id="{{ i.id }}" id="ViewPermission" class="btn btn-warning btn-sm">Permissions</span>
+           {% endif %}
+            <span  data-id="{{ i.id }}" data-name="{{ i.first_name }}" class="btn btn-danger btn-sm" id="delete_user">Delete</span>
+        </p>
+
+      
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
+</div>
+{% endfor %}
+
+<div class="modal fade" id="delete_show" tabindex="-1" role="dialog" aria-labelledby="user_delete_confirm_title"
+aria-hidden="true">
+<div class="modal-dialog modal-sm">
+   <div class="modal-content">
+    
+       <div class="modal-header" >
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+           </button>
+       </div>
+       <div class="modal-body">
+        <p>Are you sure, this ac\tion is irreversable!!</p>
+    
+        <button type="button" class="btn btn-danger btn-sm  offset-10" id="delete">Delete</button>
+       </div>
+      
+   </div>
+</div>
+</div>
+
+
+          

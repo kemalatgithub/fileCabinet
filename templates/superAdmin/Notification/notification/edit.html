@@ -1,0 +1,36 @@
+<hr><br>
+{% for i in email %}
+<hr><br>
+<div class="col-md-12 text-sm">
+    <!-- About Me Box -->
+   <div class="row">
+      <!-- /.card-header -->
+     
+        <div class="col-md-4 text-sm">
+        <label> እሜይል ባላቤት</label>
+
+        <p class="text-muted">
+            <input type="text" class="form-control form-control-border" id="holder" value="{{ i.holder}}" placeholder=" እሜይል ባላቤት ሙሉ ስም">
+        </p>
+    </div>
+    <div class="col-md-6 text-sm">
+        <label> እሜይል</label>
+
+        <p class="text-muted">
+          <input type="email" class="form-control form-control-border" value="{{ i.email }}" id="email" placeholder="እሜይል">
+        </p>
+    </div>
+    <div class="col-md-2 text-sm mt-4">
+        <p class="btn-group">
+            <span id="update_email" data-id="{{i.id}}" class="btn btn-warning btn-sm">ለውጥ አስቀምጥ</span>
+        </p>
+</div>
+       
+  </div>
+</div>
+{% endfor %}
+
+
+
+
+          

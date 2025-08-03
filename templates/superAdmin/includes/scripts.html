@@ -1,0 +1,2445 @@
+{% load static %}
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'plugins/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+
+<!-- BS-Stepper -->
+<script src="{% static 'plugins/bs-stepper/js/bs-stepper.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static 'dist/js/demo.js' %}"></script>
+<script src="{% static 'dist/js/pages/Dashboard.js' %}"></script>
+<script>
+    // BS-Stepper Init
+    document.addEventListener('DOMContentLoaded', function () {
+        window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+    })
+</script>
+<!-- AdminLTE for demo purposes -->
+<script>
+    $(function () {
+        $("#example2").DataTable({
+            "responsive": true, "lengthChange": false, ordering: false, "autoWidth": false,pageLength: 10,
+            "buttons": ["excel", "pdf", "print"]
+        }).buttons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
+        $('#example3').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+
+</script>
+<script>
+var obj = new Object();
+
+
+$(document).ready(function() {
+    $(".revoke").hide();
+    $("#grant").hide();
+});
+// Role management 
+
+$(document).on('click', '#save_role', function (e) {
+    var role_name = $("#role_name").val();
+    var role_description = $("#role_description").val();
+
+    if(role_name=="" || role_description =="")
+    {
+        alert("እባክዎ የተሟላ መረጃ ያቅርበው")
+    }else{
+    $.ajax({
+        url: 'superAdminsave_role',
+        data: { 
+            role_name:role_name,
+            role_description:role_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            alert("Saved Successfully")
+            location.reload();
+
+        }
+    });
+}
+});
+$(document).on('click', '#new_role', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_role',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#role_create_field').html(data);
+
+        }
+    });
+});
+
+$(document).on('click', '#role_edit', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminrole_edit',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#role_create_field').html(data);
+
+        }
+    });
+});
+
+$(document).on('click', '#user_detail', function (e) {
+    var id = $(this).data('id'); 
+
+    $.ajax({
+        url: 'superAdminuser_details',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#user_details').html(data);
+
+        }
+    });
+});
+
+$(document).on('click', '#update_role', function (e) {
+    var id = $(this).data('id');
+    var role_name = $("#role_name").val();
+    var role_description = $("#role_description").val();
+
+    if(role_name=="" || role_description =="")
+    {
+        alert("እባክዎ የተሟላ መረጃ ያቅርበው")
+    }else{
+    $.ajax({
+        url: 'superAdminupdate_role',
+        data: { 
+            id:id,
+            role_name:role_name,
+            role_description:role_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            alert("Data Updated Successfully")
+            location.reload();
+
+        }
+    });
+}
+});
+
+$(document).on('click', '#delete_role_warning', function (e) {
+        var role_id = $(this).data('id');  
+        obj.role_id = role_id;
+        $('#role_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_role', function (e) {
+        $.ajax({
+            url: 'superAdmindelete_role',
+            data: { 
+                id:obj.role_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                alert("Deleted Successfully")
+            location.reload();
+
+            }
+        });
+    });
+$(document).on('click', '#delete_group_warning', function (e) {
+        var gr_id = $(this).data('id');  
+        obj.gr_id = gr_id;
+        $('#group_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_group', function (e) {
+        $.ajax({
+            url: 'superAdmindelete_group',
+            data: { 
+                id:obj.gr_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                alert("Group Deleted Successfully ")
+            location.reload();
+
+            }
+        });
+    });
+// User Management 
+
+
+$(document).on('click', '#ViewPermission', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminview_permission',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#user_details').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#permission', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminload_permission',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#user_details').html(data);
+
+        }
+    });
+});
+// $(document).on('click', '#DeletePermission', function (e) {
+//     var id = $(this).data('id');
+//     alert(id)
+//     $.ajax({
+//         url: 'superAdmindelete_permission',
+//         data: { 
+//             id:id,
+//             csrfmiddlewaretoken: '{{ csrf_token }}'
+//         },
+//         type: 'post',
+//         success: function (data) {
+//             alert("Permission ፍቃድ በተሳካ ሁኔታ ተነጠቀ")
+//             location.reload();
+
+//         }
+//     });
+// });
+$(document).on('click', '.DeletePermission', function (e) {
+    var permission= 0;
+    var id = $(this).data('id');
+     var allow = document.getElementById(id);
+  
+            if (allow.checked == true) {
+                permission=1;
+                $("#RevokePermission").show();
+
+            }else
+            {
+                permission=0;
+            }
+    $.ajax({
+        url: 'superAdmindelete_permission',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#alert').html(data.html);
+
+        }
+    });
+});
+$(document).on('click', '#addPermission', function (e) {
+    alert(" በተሳካ ሁኔታ ተጨምሯል")
+    location.reload();
+});
+$(document).on('click', '#RevokePermission', function (e) {
+    var DeletePermission = $(".DeletePermission").val();
+    if(DeletePermission = "")
+    {
+        alert("Atleast one check required ")
+    }else{
+        alert("ፍቃድ በተሳካ ሁኔታ ተነጠቀ")
+        location.reload();
+    }
+   
+});
+
+$(document).on('click', '.permits', function (e) {
+    var permission= 0;
+    var id = $(this).data('id');
+    var user_id = $("#user_id").val();
+     var allow = document.getElementById(id);
+  
+            if (allow.checked == true) {
+                permission=1;
+                $("#addPermission").show();
+            }else
+            {
+                permission=0;
+            }
+    $.ajax({
+        url: 'superAdminpermit',
+        data: { 
+            permission:permission,
+            user_id:user_id,
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#alert').html(data.html);
+
+        }
+    });
+});
+
+$(document).on('click', '#reset', function (e) {
+    location.reload();
+});
+$(document).on('click', '#save_and_return', function (e) {
+    var email = $("#emailc").val();
+    var first_name = $("#first_namec").val();
+    var last_name = $("#last_namec").val();
+    // var age = $("#age").val();
+    // var gender = $("#gender").val();
+    // var nationality = $("#nationality").val();
+    // var region = $("#region").val();
+    // var zone = $("#zone").val();
+    // var Telephone = $("#Telephone").val();
+    // var cell_phone = $("#cell_phone").val();
+    // var username = $("#username").val();
+    var password = $("#passwordc").val();
+    var re_password = $("#re-passwordc").val();
+    var user_roles = $("#user_rolesc").val();
+    var cell = $("#cellc").val();
+    // var is_staff = $("#is_staff").val();
+    // var is_active = $("#is_active").val();
+    var is_staff = 0;
+    var is_active = 0;
+    var Is_superUser = 0;
+    var is_staff = document.getElementById('is_staffc');
+            if (is_staff.checked == true) {
+                is_staff = 1;
+            }else{
+                is_staff = 0;
+            }
+    var is_active = document.getElementById('is_activec');
+            if (is_active.checked == true) {
+                is_active = 1;
+            }else{
+                is_active = 0;
+            }
+    var Is_superUser = document.getElementById('Is_superUserc');
+            if (Is_superUser.checked == true) {
+                Is_superUser = 1;
+            }else{
+                Is_superUser = 0;
+            }
+    if(email=="" || first_name =="" || last_name=="" || password=="" || re_password=="" || user_roles =="")
+    {
+        alert("እባክዎ የተሟላ መረጃ ያቅርበው")
+    }else if(password != re_password)
+    {
+        alert("Password not match !")
+    }
+    else{
+        
+    $.ajax({
+         url: 'superAdminsave_user_and_return',
+        data: { 
+            email:email,
+            cell:cell,
+            first_name:first_name,
+            last_name:last_name,
+            // username:username,
+            password:password,
+            user_roles:user_roles,
+            is_staff:is_staff,
+            is_active:is_active,
+            Is_superUser:Is_superUser,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            alert("Users Deleted Successfully")
+            location.reload();
+
+        }
+    });
+}
+});
+$(document).on('click', '#update_user', function (e) {
+    var id = $(this).data('id'); 
+   
+    var first_name = $("#first_nameu").val();
+    var last_name = $("#last_nameu").val();
+    var email = $("#emailu").val();
+    var username = $("#usernameu").val();
+    var password = $("#passwordu").val();
+    var user_roles = $("#user_rolesu").val();
+    var is_staff = 0;
+    var is_active = 0;
+    var Is_superuser = 0;
+    var is_staff = document.getElementById('is_staffu');
+            if (is_staff.checked == true) {
+                is_staff = 1;
+            }else{
+                is_staff = 0;
+            }
+    var is_active = document.getElementById('is_activeu');
+            if (is_active.checked == true) {
+                is_active = 1;
+            }else{
+                is_active = 0;
+            }
+    var Is_superuser = document.getElementById('Is_superuseru');
+            if (Is_superuser.checked == true) {
+                Is_superuser = 1;
+            }else{
+                Is_superuser = 0;
+            }
+    if(password=="")
+    {
+        alert("Password Field is required")
+    }
+    else{
+        
+    $.ajax({
+        url: 'superAdminupdateuser',
+        data: { 
+            email:email,
+            id:id,
+            first_name:first_name,
+            last_name:last_name,
+            // username:username,
+            password:password,
+            user_roles:user_roles,
+            is_staff:is_staff,
+            is_active:is_active,
+            Is_superuser:Is_superuser,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            alert("Users Updated Successfully")
+            location.reload();
+
+        }
+    });
+}
+});
+
+
+
+$(document).on('click', '#create_user', function (e) {
+
+    $.ajax({
+        url: 'superAdmincreate_user',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#new_user_field').html(data);
+
+        }
+    });
+});
+$(document).on('change', '#partyforcell', function (e) {
+    var party = $("#partyforcell").val();
+    $.ajax({
+        url: 'superAdminloadUserCell',
+        data: { 
+            party:party,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#UserCellsView').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#staff_detail', function (e) {
+    var id = $(this).data('id'); 
+    $.ajax({
+        url: 'superAdminstaff_detail',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#staff_details').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#edit_profile', function (e) {
+    var id = $(this).data('id'); 
+    $.ajax({
+        url: 'superAdminedit_profile',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#staff_details').html(data);
+
+        }
+    });
+});
+
+$(document).on('click', '#edit', function (e) {
+        var id = $(this).data('id');  
+        obj.ids = id;
+        $.ajax({
+            url: 'superAdminuser_edit_view',
+            data: { 
+                id:id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+            $('#user_details').html(data);
+            }
+        });
+    });
+
+    // Profile Change 
+$(document).on('click', '#change_profile', function (e) {
+        var id = $(this).data('id');  
+        $.ajax({
+            url: 'superAdminprofile_change_view',
+            data: { 
+                id:id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+            $('#profile_field').html(data);
+            }
+        });
+    });
+
+$(document).on('click', '#delete_user', function (e) {
+        var id = $(this).data('id');  
+        obj.id = id;
+        $('#delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete', function (e) {
+        $.ajax({
+            url: 'superAdmindelete',
+            data: { 
+                id:obj.id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                alert("Users   Deleted Successfully")
+            location.reload();
+
+            }
+        });
+    });
+// Region management 
+$(document).on('click', '#new_region', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_region',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#region_create_field').html(data);
+
+        }
+    });
+});
+
+$(document).on('click', '#save_region', function (e) {
+    var region_name = $("#region_name").val();
+    var region_description = $("#region_description").val();
+
+    if(region_name=="" || region_description =="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>እባክዎ የተሟላ መረጃ ያቅርበው</strong> '+
+                      '</div>'
+        $("#region_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminsave_region',
+        data: { 
+            region_name:region_name,
+            description:region_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("የክልል መረጃዉ በተሳካ ሁኔታ ተቀምጧል")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>የክልል መረጃ በተሳካ ሁኔታ ተቀምጧል</strong> '+
+                      '</div>'
+             $("#region_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+
+        }
+    });
+}
+});
+$(document).on('click', '#region_edit', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminregion_edit',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#region_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#update_region', function (e) {
+    var id = $(this).data('id');
+    var name = $("#region_name").val();
+    var description = $("#region_description").val();
+
+    if(name=="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>የክልል ስሙ ባዶ ሊሆን አይችልም</strong> '+
+                      '</div>'
+        $("#region_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminupdate_region',
+        data: { 
+            id:id,
+            name:name,
+            description:description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("ክልል Data Updated Successfully ")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ክልል መረጃ Data Updated Successfully</strong> '+
+                      '</div>'
+             $("#region_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+
+        }
+    });
+}
+});
+// Zone Management
+$(document).on('click', '#new_zone', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_zone',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#zone_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#save_zone', function (e) {
+    var zone_name = $("#zone_name").val();
+    var zone_description = $("#zone_description").val();
+
+    if(zone_name=="" || zone_description =="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>እባክዎ የተሟላ መረጃ ያቅርበው</strong> '+
+                      '</div>'
+        $("#zone_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminsave_zone',
+        data: { 
+            zone_name:zone_name,
+            zone_description:zone_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("የዞን መረጃዉ በተሳካ ሁኔታ ተቀምጧል")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>የዞን መረጃዉ በተሳካ ሁኔታ ተቀምጧል</strong> '+
+                      '</div>'
+             $("#zone_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+
+        }
+    });
+}
+});
+$(document).on('click', '#zone_edit', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminzone_edit',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#zone_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#update_zone', function (e) {
+    var id = $(this).data('id');
+    var name = $("#zone_name").val();
+    var description = $("#zone_description").val();
+
+    if(name=="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>የዞን ስሙ ባዶ ሊሆን አይችልም</strong> '+
+                      '</div>'
+        $("#zone_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminupdate_zone',
+        data: { 
+            id:id,
+            name:name,
+            description:description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("የዞን Data Updated Successfully ")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>የዞን መረጃ Data Updated Successfully</strong> '+
+                      '</div>'
+             $("#zone_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+
+        }
+    });
+}
+});
+
+// Nation Management 
+$(document).on('click', '#new_nation', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_nation',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#nation_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#save_nation', function (e) {
+    var nation_name = $("#nation_name").val();
+    var nation_description = $("#nation_description").val();
+
+    if(nation_name=="" || nation_description =="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>እባክዎ የተሟላ መረጃ ያቅርበው</strong> '+
+                      '</div>'
+        $("#nation_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminsave_nation',
+        data: { 
+            nation_name:nation_name,
+            nation_description:nation_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("የብሔር መረጃዉ በተሳካ ሁኔታ ተቀምጧል")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>የብሔር መረጃዉ በተሳካ ሁኔታ ተቀምጧል</strong> '+
+                      '</div>'
+             $("#nation_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+$(document).on('click', '#nation_edit', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminnation_edit',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#nation_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#update_nation', function (e) {
+    var id = $(this).data('id');
+    var name = $("#nation_name").val();
+    var description = $("#nation_description").val();
+
+    if(name=="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ስም ባዶ ሊሆን አይችልም</strong> '+
+                      '</div>'
+        $("#nation_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminupdate_nation',
+        data: { 
+            id:id,
+            name:name,
+            description:description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("የብሔር መረጃ Data Updated Successfully ")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>የብሔር መረጃ Data Updated Successfully</strong> '+
+                      '</div>'
+             $("#nation_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+
+// kebele Management 
+$(document).on('click', '#new_kebele', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_kebele',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#kebele_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#save_kebele', function (e) {
+    var kebele_name = $("#kebele_name").val();
+    var kebele_description = $("#kebele_description").val();
+
+    if(kebele_name=="" || kebele_description =="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>እባክዎ የተሟላ መረጃ ያቅርበው</strong> '+
+                      '</div>'
+        $("#kebele_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminsave_kebele',
+        data: { 
+            kebele_name:kebele_name,
+            kebele_description:kebele_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>የቀበሌ መረጃዉ በተሳካ ሁኔታ ተቀምጧል</strong> '+
+                      '</div>'
+             $("#kebele_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+$(document).on('click', '#kebele_edit', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminkebele_edit',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#kebele_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#update_kebele', function (e) {
+    var id = $(this).data('id');
+    var name = $("#kebele_name").val();
+    var description = $("#kebele_description").val();
+
+    if(name=="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ስሙ ባዶ ሊሆን አይችልም</strong> '+
+                      '</div>'
+             $("#kebele_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminupdate_kebele',
+        data: { 
+            id:id,
+            name:name,
+            description:description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("የብሔር መረጃ Data Updated Successfully ")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>የቀበሌ መረጃ Data Updated Successfully</strong> '+
+                      '</div>'
+             $("#kebele_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+
+// Woreda Management 
+$(document).on('click', '#new_woreda', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_woreda',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#woreda_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#save_woreda', function (e) {
+    var woreda_name = $("#woreda_name").val();
+    var woreda_description = $("#woreda_description").val();
+
+    if(woreda_name=="" || woreda_description =="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>እባክዎ የተሟላ መረጃ ያቅርበው</strong> '+
+                      '</div>'
+        $("#woreda_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminsave_woreda',
+        data: { 
+            woreda_name:woreda_name,
+            woreda_description:woreda_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ በተሳካ ሁኔታ ተቀምጧል</strong> '+
+                      '</div>'
+             $("#woreda_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+$(document).on('click', '#woreda_edit', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminworeda_edit',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#woreda_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#update_woreda', function (e) {
+    var id = $(this).data('id');
+    var name = $("#woreda_name").val();
+    var description = $("#woreda_description").val();
+
+    if(name=="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ስሙ ባዶ ሊሆን አይችልም</strong> '+
+                      '</div>'
+             $("#woreda_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminupdate_woreda',
+        data: { 
+            id:id,
+            name:name,
+            description:description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("የብሔር መረጃ Data Updated Successfully ")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ Data Updated Successfully</strong> '+
+                      '</div>'
+             $("#woreda_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+
+// Federal Zone Management 
+$(document).on('click', '#new_federal_zone', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_federal_zone',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#federal_zone_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#save_federal_zone', function (e) {
+    var federal_zone_name = $("#federal_zone_name").val();
+    var federal_zone_description = $("#federal_zone_description").val();
+
+    if(federal_zone_name=="" || federal_zone_description =="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>እባክዎ የተሟላ መረጃ ያቅርበው</strong> '+
+                      '</div>'
+        $("#federal_zone_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminsave_federal_zone',
+        data: { 
+            federal_zone_name:federal_zone_name,
+            federal_zone_description:federal_zone_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ በተሳካ ሁኔታ ተቀምጧል</strong> '+
+                      '</div>'
+             $("#federal_zone_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+$(document).on('click', '#federal_zone_edit', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminfederal_zone_edit',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#federal_zone_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#update_federal_zone', function (e) {
+    var id = $(this).data('id');
+    var name = $("#federal_zone_name").val();
+    var description = $("#federal_zone_description").val();
+
+    if(name=="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ስሙ ባዶ ሊሆን አይችልም</strong> '+
+                      '</div>'
+             $("#federal_zone_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminupdate_federal_zone',
+        data: { 
+            id:id,
+            name:name,
+            description:description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("የብሔር መረጃ Data Updated Successfully ")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ Data Updated Successfully</strong> '+
+                      '</div>'
+             $("#federal_zone_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+
+// Federal District Management 
+$(document).on('click', '#new_district', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_district',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#district_create_field').html(data);
+        }
+    });
+});
+$(document).on('click', '#save_district', function (e) {
+    var district_name = $("#district_name").val();
+    var district_description = $("#district_description").val();
+
+    if(district_name=="" || district_description =="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>እባክዎ የተሟላ መረጃ ያቅርበው</strong> '+
+                      '</div>'
+        $("#district_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminsave_district',
+        data: { 
+            district_name:district_name,
+            district_description:district_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ በተሳካ ሁኔታ ተቀምጧል</strong> '+
+                      '</div>'
+             $("#district_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+$(document).on('click', '#district_edit', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdmindistrict_edit',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#district_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#update_district', function (e) {
+    var id = $(this).data('id');
+    var name = $("#district_name").val();
+    var description = $("#district_description").val();
+
+    if(name=="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ስሙ ባዶ ሊሆን አይችልም</strong> '+
+                      '</div>'
+             $("#district_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminupdate_district',
+        data: { 
+            id:id,
+            name:name,
+            description:description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("የብሔር መረጃ Data Updated Successfully ")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ Data Updated Successfully</strong> '+
+                      '</div>'
+             $("#district_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+
+// Federal Zone Management 
+$(document).on('click', '#new_federal_woreda', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_federal_woreda',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#federal_woreda_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#save_federal_woreda', function (e) {
+    var federal_zone = $("#federal_zone").val();
+    var federal_woreda_name = $("#federal_woreda_name").val();
+    var federal_woreda_description = $("#federal_woreda_description").val();
+
+    if(federal_zone=="" || federal_woreda_name =="" || federal_woreda_description =="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>እባክዎ የተሟላ መረጃ ያቅርበው</strong> '+
+                      '</div>'
+        $("#federal_woreda_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminsave_federal_woreda',
+        data: { 
+            federal_zone:federal_zone,
+            federal_woreda_name:federal_woreda_name,
+            federal_woreda_description:federal_woreda_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ በተሳካ ሁኔታ ተቀምጧል</strong> '+
+                      '</div>'
+             $("#federal_woreda_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+$(document).on('click', '#federal_woreda_edit', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminfederal_woreda_edit',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#federal_woreda_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#update_federal_woreda', function (e) {
+    var id = $(this).data('id');
+    var federal_zone = $("#federal_zone").val();
+    var federal_woreda_name = $("#federal_woreda_name").val();
+    var federal_woreda_description = $("#federal_woreda_description").val();
+
+    if(federal_zone=="" || federal_woreda_name =="" )
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ፌዴራል ዞን እና ስሙ ባዶ ሊሆን አይችልም</strong> '+
+                      '</div>'
+             $("#federal_woreda_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminupdate_federal_woreda',
+        data: { 
+            id:id,
+            federal_zone:federal_zone,
+            federal_woreda_name:federal_woreda_name,
+            federal_woreda_description:federal_woreda_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("የብሔር መረጃ Data Updated Successfully ")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ Data Updated Successfully</strong> '+
+                      '</div>'
+             $("#federal_woreda_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+
+// Basic Party Management 
+$(document).on('click', '#new_basic_party', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_basic_party',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#basic_party_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#save_basic_party', function (e) {
+    var federal_woreda = $("#federal_woreda").val();
+    var basic_party_name = $("#basic_party_name").val();
+    var basic_party_description = $("#basic_party_description").val();
+
+    if(federal_woreda=="" || basic_party_name =="" || basic_party_description =="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>እባክዎ የተሟላ መረጃ ያቅርበው</strong> '+
+                      '</div>'
+        $("#basic_party_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminsave_basic_party',
+        data: { 
+            federal_woreda:federal_woreda,
+            basic_party_name:basic_party_name,
+            basic_party_description:basic_party_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ በተሳካ ሁኔታ ተቀምጧል</strong> '+
+                      '</div>'
+             $("#basic_party_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+$(document).on('click', '#basic_party_edit', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminbasic_party_edit',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#basic_party_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#update_basic_party', function (e) {
+    var id = $(this).data('id');
+    var federal_woreda = $("#federal_woreda").val();
+    var basic_party_name = $("#basic_party_name").val();
+    var basic_party_description = $("#basic_party_description").val();
+
+    if(federal_woreda=="" || basic_party_name =="" || federal_woreda =="-1" )
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ፌዴራል ወረዳ እና ስሙ ባዶ ሊሆን አይችልም</strong> '+
+                      '</div>'
+             $("#basic_party_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminupdate_basic_party',
+        data: { 
+            id:id,
+            federal_woreda:federal_woreda,
+            basic_party_name:basic_party_name,
+            basic_party_description:basic_party_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("የብሔር መረጃ Data Updated Successfully ")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ Data Updated Successfully</strong> '+
+                      '</div>'
+             $("#basic_party_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+
+// Cell Management 
+$(document).on('click', '#new_cell', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_cell',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#cell_create_field').html(data);
+        }
+    });
+});
+$(document).on('click', '#save_cell', function (e) {
+    var basic_party = $("#basic_party").val();
+    var cell_name = $("#cell_name").val();
+    var cell_description = $("#cell_description").val();
+
+    if(basic_party=="" || cell_name =="" || cell_description =="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>እባክዎ የተሟላ መረጃ ያቅርበው</strong> '+
+                      '</div>'
+        $("#cell_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminsave_cell',
+        data: { 
+            basic_party:basic_party,
+            cell_name:cell_name,
+            cell_description:cell_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ በተሳካ ሁኔታ ተቀምጧል</strong> '+
+                      '</div>'
+             $("#cell_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+$(document).on('click', '#cell_edit', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdmincell_edit',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#cell_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#update_cell', function (e) {
+    var id = $(this).data('id');
+    var basic_party = $("#basic_party").val();
+    var cell_name = $("#cell_name").val();
+    var cell_description = $("#cell_description").val();
+
+    if(basic_party=="" || cell_name =="" || cell_name =="-1" )
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ፌዴራል ወረዳ እና ስሙ ባዶ ሊሆን አይችልም</strong> '+
+                      '</div>'
+             $("#cell_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminupdate_cell',
+        data: { 
+            id:id,
+            basic_party:basic_party,
+            cell_name:cell_name,
+            cell_description:cell_description,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            // alert("የብሔር መረጃ Data Updated Successfully ")
+            // location.reload();
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ Data Updated Successfully</strong> '+
+                      '</div>'
+             $("#cell_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+
+$(document).on('click', '#member_details', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminmember_detail',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            $('#memberDetailsView').html(data);
+
+
+        }
+    });
+});
+$(document).on('click', '#payment_detail', function (e) {
+    var id = $(this).data('id');
+    var mid = $(this).data('ids');
+    $.ajax({
+        url: 'superAdminpayment_detail',
+        data: { 
+            id:id,
+            mid:mid,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            $('#paymentDetails').html(data);
+
+
+        }
+    });
+});
+function ToggleSearchType(){
+var rates = document.getElementsByName('SearchType');
+var value;
+for (var i = 0; i < rates.length; i++) {
+    if (rates[i].checked) {
+        value = rates[i].value;
+    }
+}
+    $.ajax({
+        url: 'superAdminmember_search_view',
+        data: { 
+            value:value,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            $('#search_form').html(data);
+
+        }
+    });
+}
+
+$(document).on('keyup', '#name', function () {
+        var name = $(this).val();
+        $.ajax({
+            url: 'superAdminmember_search_byName',
+            data: { name:name,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function(data) {
+                $('#memberDetailsView').html(data);
+            },
+        });
+    });
+$(document).on('change', '#cellSearch', function (e) {
+    var cell = $("#cellSearch").val();
+    if(cell =='')
+    {
+    var alert ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ተስማሚ ህዋስ ይምረጡ</strong> '+
+                      '</div>'
+             $("#search_alert").html(alert);
+    }else{
+    $.ajax({
+        url: 'superAdminmember_search_byCell',
+        data: { 
+            cell:cell,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#memberDetailsView').html(data);
+
+        }
+    });
+}
+});
+$(document).on('change', '#Searchbyparty', function (e) {
+    var party = $("#Searchbyparty").val();
+    if(party =='')
+    {
+    var alert ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ተስማሚ መሰረታዊ ፓርቲ ይምረጡ</strong> '+
+                      '</div>'
+             $("#search_alert").html(alert);
+    }else{
+    $.ajax({
+        url: 'superAdminmember_cell_search',
+        data: { 
+            party:party,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#cellView').html(data);
+
+        }
+    });
+}
+});
+$(document).on('change', '#PaymentsSearch', function (e) {
+    var cell = $("#PaymentsSearch").val();
+    if(cell =='')
+    {
+    var alert ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ተስማሚ ህዋስ ይምረጡ</strong> '+
+                      '</div>'
+             $("#search_alert").html(alert);
+    }else{
+    $.ajax({
+        url: 'superAdminpayment_search_byCell',
+        data: { 
+            cell:cell,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#memberDetailsView').html(data);
+
+        }
+    });
+}
+});
+$(document).on('change', '#PaymentsCellSearch', function (e) {
+    var party = $("#PaymentsCellSearch").val();
+    if(party =='')
+    {
+    var alert ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ተስማሚ መሰረታዊ ፓርቲ ይምረጡ</strong> '+
+                      '</div>'
+             $("#search_alert").html(alert);
+    }else{
+    $.ajax({
+        url: 'superAdminpayment_search_cell',
+        data: { 
+            party:party,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#PaymentscellView').html(data);
+
+        }
+    });
+}
+});
+
+// Notification Email 
+
+$(document).on('click', '#new_email', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_email',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#email_create_field').html(data);
+        }
+    });
+});
+$(document).on('click', '#new_not_user', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_not_user',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#not_user_create_field').html(data);
+        }
+    });
+});
+$(document).on('click', '#save_email', function (e) {
+    var holder = $("#holder").val();
+    var email = $("#emailuser").val();
+
+    if(holder=="" || email =="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>እባክዎ የተሟላ መረጃ ያቅርበው</strong> '+
+                      '</div>'
+        $("#email_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminsave_email',
+        data: { 
+            holder:holder,
+            email:email,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ በተሳካ ሁኔታ ተቀምጧል</strong> '+
+                      '</div>'
+             $("#email_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+$(document).on('click', '#email_edit', function (e) {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'superAdminemail_edit',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#email_create_field').html(data);
+
+        }
+    });
+});
+$(document).on('click', '#update_email', function (e) {
+    var holder = $("#holder").val();
+    var email = $("#email").val();
+    var id = $(this).data('id');
+    if(holder=="" || email =="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ፌዴራል ወረዳ እና ስሙ ባዶ ሊሆን አይችልም</strong> '+
+                      '</div>'
+             $("#email_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminupdate_email',
+        data: { 
+            holder:holder,
+            email:email,
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ Data Updated Successfully</strong> '+
+                      '</div>'
+             $("#email_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+
+$(document).on('click', '#delete_email_warning', function (e) {
+        var role_id = $(this).data('id');  
+        obj.role_id = role_id;
+        $('#email_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_email', function (e) {
+        $.ajax({
+            url: 'superAdmindelete_email',
+            data: { 
+                id:obj.role_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ በተሳካ ሁኔታ ተሰርዟል</strong> '+
+                      '</div>'
+             $("#email_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+
+            }
+        });
+    });
+
+    $(document).on('click', '#delete_email', function (e) {
+        $.ajax({
+            url: 'superAdmindelete_email',
+            data: { 
+                id:obj.role_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ በተሳካ ሁኔታ ተሰርዟል</strong> '+
+                      '</div>'
+             $("#email_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+
+            }
+        });
+    });
+$(document).on('click', '#update_profile', function (e) {
+    $('#update_own_user_profile').modal({backdrop: 'static', keyboard: false}, 'show');
+});
+
+$(document).on('click', '#update_own_user', function (e) {
+    var id = $(this).data('id'); 
+    var first_name = $("#first_name").val();
+    var last_name = $("#last_name").val();
+    var email = $("#email").val();
+    var password = $("#password").val();
+    if(password=="")
+    {
+        var alert ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>ይለፍ ቃል ባዶ ልሆን አይችልም</strong> '+
+                      '</div>'
+             $("#profile_alert").html(alert);
+    }
+    else{
+    $.ajax({
+        url: 'superAdminsupdate_profile',
+        data: { 
+            email:email,
+            id:id,
+            first_name:first_name,
+            last_name:last_name,
+            password:password,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ Data Updated Successfully</strong> '+
+                      '</div>'
+             $("#profile_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+
+        }
+    });
+}
+});
+$(document).on('click', '#ViewNotification', function (e) {
+    $.ajax({
+        url: 'superAdminview_notification',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            $("#notification_list").html(data);
+            $('#ViewNotification_modal').modal({backdrop: 'static', keyboard: false}, 'show');
+
+        }
+    });
+});
+$(document).on('click', '#notification_detail', function (e) {
+    id =$(this).data('id')
+    $.ajax({
+        url: 'superAdmindetail_notification',
+        data: { 
+            id:id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            $("#notif_detail").html(data);
+        }
+    });
+});
+// Notification User 
+$(document).on('click', '#new_not_user', function (e) {
+    $.ajax({
+        url: 'superAdmincreate_not_user',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+        $('#not_user_create_field').html(data);
+        }
+    });
+});
+$(document).on('click', '#save_not_user', function (e) {
+    var user = $("#not_user").val();
+
+    if(user=="")
+    {
+        var error ='<div class="alert alert-danger alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>እባክዎ የተሟላ መረጃ ያቅርበው</strong> '+
+                      '</div>'
+        $("#not_user_alert").html(error);
+    }else{
+    $.ajax({
+        url: 'superAdminsave_not_user',
+        data: { 
+            user:user,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ በተሳካ ሁኔታ ተቀምጧል</strong> '+
+                      '</div>'
+             $("#not_user_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+        }
+    });
+}
+});
+
+$(document).on('click', '#delete_not_user_warning', function (e) {
+        var id = $(this).data('id');  
+        obj.not_user_id = id;
+        $('#not_user_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_not_user', function (e) {
+        $.ajax({
+            url: 'superAdmindelete_not_user',
+            data: { 
+                id:obj.not_user_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ በተሳካ ሁኔታ ተሰርዟል</strong> '+
+                      '</div>'
+             $("#not_user_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 800);
+
+            }
+        });
+    });
+// import_employee
+$(document).on('click', '#import_employee', function (e) {
+    $('#loading').modal({backdrop: 'static', keyboard: false}, 'show');
+    $.ajax({
+        url: 'superAdminimport_employee',
+        data: { 
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        type: 'post',
+        success: function (data) {
+            alert(" Employee Data Data Loaded Successfully")
+            location.reload();
+
+        }
+    });
+});
+
+// Delete Settings 
+// Delete Region 
+$(document).on('click', '#delete_region_warning', function (e) {
+        var id = $(this).data('id');  
+        obj.region_id = id;
+        $('#region_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_region', function (e) {
+        $('#region_delete_show').modal('hide');
+
+        $.ajax({
+            url: 'superAdmindelete_region',
+            data: { 
+                id:obj.region_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                    var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>'+ data.success+'</strong> '+
+                      '</div>'
+                
+             $("#region_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 1000);
+
+            }
+        });
+    });
+// Delete Nation 
+$(document).on('click', '#delete_nation_warning', function (e) {
+        var id = $(this).data('id');  
+        obj.nation_id = id;
+        $('#nation_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_nation', function (e) {
+        $('#nation_delete_show').modal('hide');
+
+        $.ajax({
+            url: 'superAdmindelete_nation',
+            data: { 
+                id:obj.nation_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                    var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>'+ data.success+'</strong> '+
+                      '</div>'
+                
+             $("#nation_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 1000);
+
+            }
+        });
+    });
+// Delete Kebele 
+$(document).on('click', '#delete_kebele_warning', function (e) {
+        var id = $(this).data('id');  
+        obj.kebele_id = id;
+        $('#kebele_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_kebele', function (e) {
+        $('#kebele_delete_show').modal('hide');
+
+        $.ajax({
+            url: 'superAdmindelete_kebele',
+            data: { 
+                id:obj.kebele_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                    var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>'+ data.success+'</strong> '+
+                      '</div>'
+                
+             $("#kebele_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 1000);
+
+            }
+        });
+    });
+// Delete Zone 
+$(document).on('click', '#delete_zone_warning', function (e) {
+        var id = $(this).data('id');  
+        obj.zone_id = id;
+        $('#zone_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_zone', function (e) {
+        $('#zone_delete_show').modal('hide');
+
+        $.ajax({
+            url: 'superAdmindelete_zone',
+            data: { 
+                id:obj.zone_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                    var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>'+ data.success+'</strong> '+
+                      '</div>'
+                
+             $("#zone_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 1000);
+
+            }
+        });
+    });
+// Delete District 
+$(document).on('click', '#delete_district_warning', function (e) {
+        var id = $(this).data('id');  
+        obj.district_id = id;
+        $('#district_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_district', function (e) {
+        $('#district_delete_show').modal('hide');
+
+        $.ajax({
+            url: 'superAdmindelete_district',
+            data: { 
+                id:obj.district_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                    var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>'+ data.success+'</strong> '+
+                      '</div>'
+                
+             $("#district_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 1000);
+
+            }
+        });
+    });
+// Delete Woreda 
+$(document).on('click', '#delete_woreda_warning', function (e) {
+        var id = $(this).data('id');  
+        obj.woreda_id = id;
+        $('#woreda_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_woreda', function (e) {
+        $('#woreda_delete_show').modal('hide');
+
+        $.ajax({
+            url: 'superAdmindelete_woreda',
+            data: { 
+                id:obj.woreda_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                    var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>'+ data.success+'</strong> '+
+                      '</div>'
+                
+             $("#woreda_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 1000);
+
+            }
+        });
+    });
+// Delete federal_zone 
+$(document).on('click', '#delete_federal_zone_warning', function (e) {
+        var id = $(this).data('id');  
+        obj.federal_zone_id = id;
+        $('#federal_zone_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_federal_zone', function (e) {
+        $('#federal_zone_delete_show').modal('hide');
+
+        $.ajax({
+            url: 'superAdmindelete_federal_zone',
+            data: { 
+                id:obj.federal_zone_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                    var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>'+ data.success+'</strong> '+
+                      '</div>'
+                
+             $("#federal_zone_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 1000);
+
+            }
+        });
+    });
+// Delete federal_woreda 
+$(document).on('click', '#delete_federal_woreda_warning', function (e) {
+        var id = $(this).data('id');  
+        obj.federal_woreda_id = id;
+        $('#federal_woreda_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_federal_woreda', function (e) {
+        $('#federal_woreda_delete_show').modal('hide');
+
+        $.ajax({
+            url: 'superAdmindelete_federal_woreda',
+            data: { 
+                id:obj.federal_woreda_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                    var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>'+ data.success+'</strong> '+
+                      '</div>'
+                
+             $("#federal_woreda_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 1000);
+
+            }
+        });
+    });
+// Delete basic_party 
+$(document).on('click', '#delete_basic_party_warning', function (e) {
+        var id = $(this).data('id');  
+        obj.basic_party_id = id;
+        $('#basic_party_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_basic_party', function (e) {
+        $('#basic_party_delete_show').modal('hide');
+
+        $.ajax({
+            url: 'superAdmindelete_basic_party',
+            data: { 
+                id:obj.basic_party_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                    var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>'+ data.success+'</strong> '+
+                      '</div>'
+                
+             $("#basic_party_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 1000);
+
+            }
+        });
+    });
+// Delete cell 
+$(document).on('click', '#delete_cell_warning', function (e) {
+        var id = $(this).data('id');  
+        obj.cell_id = id;
+        $('#cell_delete_show').modal({backdrop: 'static', keyboard: false}, 'show');
+    });
+    $(document).on('click', '#delete_cell', function (e) {
+        $('#cell_delete_show').modal('hide');
+
+        $.ajax({
+            url: 'superAdmindelete_cell',
+            data: { 
+                id:obj.cell_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                    var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>'+ data.success+'</strong> '+
+                      '</div>'
+                
+             $("#cell_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 1000);
+
+            }
+        });
+    });
+    
+    $(document).on('keyup', '#member_name', function () {
+        var name = $(this).val();
+        $.ajax({
+            url: 'superAdminmember_audit_byName',
+            data: { name:name,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function(data) {
+                $('#memberAuditView').html(data);
+            },
+        });
+    });
+    $(document).on('click', '#audmember', function () {
+        var id = $(this).data('id');
+        var cell = $(this).data('cell');
+        $.ajax({
+            url: 'superAdminmember_audit_payment',
+            data: { 
+                id:id,
+                cell:cell,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function(data) {
+                $('#totPayment_'+id).html(data);
+            },
+        });
+    });
+
+    $(document).on('click', '#new_league', function (e) {
+
+        $.ajax({
+            url: 'superAdminnew_league',
+            data: { 
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                $('#league_create_field').html(data);
+            }
+        });
+    });
+    $(document).on('click', '#save_league', function (e) {
+         name =$('#league_name').val()
+         description =$('#league_description').val()
+        $.ajax({
+            url: 'superAdminsave_league',
+            data: { 
+                name:name,
+                description:description,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            success: function (data) {
+                var alert ='<div class="alert alert-success alert-dismissable margin5">'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+
+                      '<strong>መረጃዉ በተሳካ ሁኔታ ተቀምጧል።</strong> '+
+                      '</div>'
+                
+             $("#league_alert").html(alert);
+             setTimeout(function(){
+              window.location.reload();
+             }, 1000);
+            }
+        });
+    });
+  </script>

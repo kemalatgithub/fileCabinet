@@ -1,0 +1,7 @@
+                     <label>ህዋሳት</label>
+                    <select name="type" id='cellc' class="form-control form-control-border text-sm">
+                      <option value="" disabled class="offset-5" selected>--ይምረጡ--</option>
+                      {% for i in cell %}
+                      <option value="{{ i.id }}">{{ i.name }}</option>
+                      {% endfor %}
+                    </select> 

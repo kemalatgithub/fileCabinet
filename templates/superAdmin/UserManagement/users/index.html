@@ -1,0 +1,78 @@
+{% extends 'superAdmin/layouts/base.html' %}
+{% load static %}
+{% block title %}  {% endblock title %}
+{% block extrastyle %}
+<!-- jsGrid -->
+<link rel="stylesheet" href="{% static 'table.css' %}">
+  
+<link rel="stylesheet" href="{% static 'plugins/bs-stepper/css/bs-stepper.min.css' %}">
+
+{% endblock extrastyle %}
+{% block bodyclass %} hold-transition sidebar-mini {% endblock bodyclass %}
+{% block content %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper text-sm">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Users List</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+              <li class="breadcrumb-item active">Users</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+            <div class="row">
+             <div class="col-12">
+                <div class="card border-primary ">
+                    <div class="card-header text-white" style="background-color: #00ade6;">
+                        <h4 class="card-title float-left"> <i class="livicon" data-name="list-ul" data-size="16" data-loop="true" data-c="#fff" data-hc="white"></i>
+                            Users List
+                        </h4>
+                    <button  style="font-size: xx-small;" type="button" id="create_user" class="btn btn-warning float-sm-right">New</button>
+                </div>
+                <div id="new_user_field">
+                    <div class="card-body table-responsive">
+                        {% include 'superAdmin/UserManagement/users/table.html'%}
+                    </div>
+                    <hr>
+                    
+                    <div id="user_details">
+           
+                    
+                  </div>
+                  <div id="alert"></div>
+                  </div>
+                </div>
+                </div>
+         </div>
+        
+        </section>
+
+    <!-- /.content -->
+  </div>
+{% endblock content %}
+{% block extra_scripts %}
+<!-- jsGrid -->
+
+<script src="{% static 'table.js' %}"></script>
+<!-- Page specific script -->
+
+<!-- BS-Stepper -->
+<script src="{% static 'plugins/bs-stepper/js/bs-stepper.min.js' %}"></script>
+<script>
+  // BS-Stepper Init
+  document.addEventListener('DOMContentLoaded', function () {
+    window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+  })
+</script>
+{% endblock extra_scripts %}

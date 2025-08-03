@@ -1,0 +1,14 @@
+﻿django
+requests
+Pillow
+django-axes
+django-admin-adminlte
+weasyprint
+xhtml2pdf
+mysqlclient
+django-import-export
+reportlab
+python-barcode
+qrcode[pil]
+python-dateutil
+pandas
